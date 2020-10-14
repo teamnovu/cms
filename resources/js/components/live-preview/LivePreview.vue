@@ -8,11 +8,11 @@
         </portal>
 
         <portal v-if="previewing" to="live-preview">
-            <div class="live-preview fixed flex flex-col">
+            <div class="fixed flex flex-col live-preview">
 
                 <transition name="live-preview-header-slide">
                     <div v-show="headerVisible" class="live-preview-header">
-                        <div class="text-base text-grey-70 font-medium mr-2">{{ __('Live Preview') }}</div>
+                        <div class="mr-2 text-base font-medium text-grey-70">{{ __('Live Preview') }}</div>
                         <div class="flex items-center">
                             <label v-if="amp" class="mr-2"><input type="checkbox" v-model="previewAmp" /> AMP</label>
                             <button v-if="canPopOut && !poppedOut" class="btn" @click="popout">{{ __('Pop out') }}</button>
@@ -43,7 +43,7 @@
 
                     <transition name="live-preview-editor-slide">
                         <div v-show="panesVisible" class="live-preview-editor" :style="{ width: poppedOut ? '100%' : `${editorWidth}px` }">
-                            <div class="live-preview-fields flex-1 h-full overflow-scroll" :class="{
+                            <div class="flex-1 h-full overflow-scroll live-preview-fields" :class="{
                                 'p-3 bg-grey-30': poppedOut,
                                 'live-preview-fields-wide': editorWidth >= 920,
                                 'live-preview-fields-narrow': editorWidth < 920
@@ -62,7 +62,8 @@
                     </transition>
 
                     <transition name="live-preview-contents-slide">
-                        <div v-show="panesVisible" ref="contents" class="live-preview-contents items-center justify-center overflow-auto" :class="{ 'pointer-events-none': editorResizing }">
+                        <div v-show="panesVisible" ref="contents" class="items-center justify-center overflow-auto live-preview-contents" :class="{ 'pointer-events-none': editorResizing }">
+                            <h1>Hello there</h1>
                             <iframe ref="iframe" frameborder="0" :class="previewDevice ? 'device' : 'responsive'" :style="{ width: previewDeviceWidth, height: previewDeviceHeight }" />
                         </div>
                     </transition>
