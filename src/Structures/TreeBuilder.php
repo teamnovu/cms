@@ -17,6 +17,8 @@ class TreeBuilder
         }
 
         $from = $params['from'] ?? null;
+        $maxDepth = $params['max_depth'] ?? null;
+        $fields = $params['fields'] ?? null;
 
         if ($from && $structure instanceof Nav) {
             throw new \Exception('Cannot get a nested starting position on a navigation structure.');
@@ -26,9 +28,9 @@ class TreeBuilder
             return null;
         }
 
-        if ($from && $from !== '/') {
-            $from = Str::start($from, '/');
-            $entry = Entry::findByUri($from);
+        $entry = ($from && $from !== '/') ? Entry::findByUri(Str::start($from, '/'), $params['site']) : null;
+
+        if ($entry) {
             $page = $tree->page($entry->id());
             $pages = $page->pages()->all();
         } else {
@@ -37,20 +39,24 @@ class TreeBuilder
                 ->all();
         }
 
-        return $this->toTree($pages, 1);
+        return $this->toTree($pages, 1, $maxDepth, $fields);
     }
 
-    protected function toTree($pages, $depth)
+    protected function toTree($pages, $depth, $maxDepth, $fields)
     {
-        return $pages->map(function ($page) use ($depth) {
+        if ($maxDepth && $depth > $maxDepth) {
+            return [];
+        }
+
+        return $pages->map(function ($page) use ($depth, $maxDepth, $fields) {
             if ($page->reference() && ! $page->referenceExists()) {
                 return null;
             }
 
             return [
-                'page' => $page,
+                'page' => $page->selectedQueryColumns($fields),
                 'depth' => $depth,
-                'children' => $this->toTree($page->pages()->all(), $depth + 1),
+                'children' => $this->toTree($page->pages()->all(), $depth + 1, $maxDepth, $fields),
             ];
         })->filter()->values()->all();
     }

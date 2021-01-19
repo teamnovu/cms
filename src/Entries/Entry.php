@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Carbon;
 use Statamic\Contracts\Auth\Protect\Protectable;
 use Statamic\Contracts\Data\Augmentable;
+use Statamic\Contracts\Data\Augmented;
 use Statamic\Contracts\Data\Localization;
 use Statamic\Contracts\Entries\Entry as Contract;
 use Statamic\Data\ContainsData;
@@ -20,7 +21,6 @@ use Statamic\Events\EntrySaved;
 use Statamic\Events\EntrySaving;
 use Statamic\Facades;
 use Statamic\Facades\Blink;
-use Statamic\Facades\Blueprint;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Site;
 use Statamic\Facades\Stache;
@@ -117,7 +117,7 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
         return $this->collection;
     }
 
-    public function newAugmentedInstance()
+    public function newAugmentedInstance(): Augmented
     {
         return new AugmentedEntry($this);
     }
@@ -275,6 +275,7 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
         if ($this->id()) {
             Blink::store('structure-page-entries')->forget($this->id());
             Blink::store('structure-uris')->forget($this->id());
+            Blink::store('structure-entries')->flush();
         }
 
         $this->taxonomize();
@@ -394,7 +395,7 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
     {
         $array = $this->data()->merge([
             'id' => $this->id(),
-            'origin' => optional($this->origin)->id(),
+            'origin' => optional($this->origin())->id(),
             'published' => $this->published === false ? false : null,
         ]);
 

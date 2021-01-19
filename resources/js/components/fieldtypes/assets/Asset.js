@@ -28,12 +28,12 @@ export default {
             return this.asset.extension === 'svg' && ! this.asset.url.includes('::');
         },
 
-        thumbnail() {
-            return this.asset.thumbnail;
+        canBeTransparent() {
+            return ['png', 'svg'].includes(this.asset.extension)
         },
 
-        toenail() {
-            return this.asset.toenail;
+        thumbnail() {
+            return this.asset.thumbnail;
         },
 
         label() {
