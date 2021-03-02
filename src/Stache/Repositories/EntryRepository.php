@@ -63,15 +63,19 @@ class EntryRepository implements RepositoryContract
             }
 
             $data = $livePreviewCache[$preview][$uri];
+
             $entry = $this->make()
                     ->collection($data['collection'])
                     ->blueprint($data['blueprint'])
                     ->locale($site)
                     ->published(true)
                     ->slug($data['slug'])
-                    ->model($this->make())
                     ->date($data['data']['date'] ?? Carbon::now())
                     ->data($data['data']);
+
+            if (method_exists($entry, 'model')) {
+                $entry->model($this->make());
+            }
 
             return $entry;
         }
