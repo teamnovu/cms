@@ -59,6 +59,7 @@ class EntryPreviewController extends CpController
         $entry = Entry::make()
             ->slug($preview['slug'] ?? 'slug')
             ->collection($collection)
+            ->blueprint($request->get('blueprint'))
             ->locale($site->handle())
             ->data($values);
 
