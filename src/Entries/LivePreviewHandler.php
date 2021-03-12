@@ -23,15 +23,16 @@ class LivePreviewHandler implements LivePreviewContract
             }
 
             $url = $entry->url();
-            if ($url === '/') {
-                $currentLivePreviewUrl = Cache::get('current-live-preview-url', []);
-                if (isset($currentLivePreviewUrl[auth()->user()->id()])) {
-                    $url = $currentLivePreviewUrl[auth()->user()->id()];
-                } else {
+            $currentLivePreviewUrl = Cache::get('current-live-preview-url', []);
+            if (isset($currentLivePreviewUrl[auth()->user()->id()])) {
+                $url = $currentLivePreviewUrl[auth()->user()->id()];
+            } else {
+                if (! $entry->id()) {
                     $url = '/'.Str::random(10);
-                    $currentLivePreviewUrl[auth()->user()->id()] = $url;
-                    Cache::put('current-live-preview-url', $currentLivePreviewUrl);
                 }
+
+                $currentLivePreviewUrl[auth()->user()->id()] = $url;
+                Cache::put('current-live-preview-url', $currentLivePreviewUrl);
             }
 
             $livePreviewCache[auth()->user()->id()][$url] = [
