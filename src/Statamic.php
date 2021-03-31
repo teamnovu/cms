@@ -194,7 +194,7 @@ class Statamic
     public static function jsonVariables(Request $request)
     {
         return collect(static::$jsonVariables)->map(function ($variable) use ($request) {
-            return is_callable($variable) ? $variable($request) : $variable;
+            return is_callable($variable) && ! is_string($variable) ? $variable($request) : $variable;
         })->all();
     }
 
@@ -261,6 +261,8 @@ class Statamic
         foreach (static::$bootedCallbacks as $callback) {
             $callback();
         }
+
+        static::$bootedCallbacks = [];
     }
 
     public static function afterInstalled(Closure $callback)
@@ -273,6 +275,8 @@ class Statamic
         foreach (static::$afterInstalledCallbacks as $callback) {
             $callback($command);
         }
+
+        static::$afterInstalledCallbacks = [];
     }
 
     public static function repository($abstract, $concrete)

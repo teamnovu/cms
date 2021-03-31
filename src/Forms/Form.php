@@ -15,6 +15,7 @@ use Statamic\Facades\File;
 use Statamic\Facades\Folder;
 use Statamic\Facades\YAML;
 use Statamic\Forms\Exceptions\BlueprintUndefinedException;
+use Statamic\Statamic;
 use Statamic\Support\Arr;
 use Statamic\Support\Traits\FluentlyGetsAndSets;
 
@@ -345,6 +346,11 @@ class Form implements FormContract, Augmentable
 
     protected function shallowAugmentedArrayKeys()
     {
-        return ['handle', 'title'];
+        return ['handle', 'title', 'api_url'];
+    }
+
+    public function apiUrl()
+    {
+        return Statamic::apiRoute('forms.show', $this->handle());
     }
 }
