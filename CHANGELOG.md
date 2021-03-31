@@ -1,5 +1,33 @@
 # Release Notes
 
+## 3.0.49 (2020-03-24)
+
+### What's new
+- Add markdown option to render form emails. [#3414](https://github.com/statamic/cms/issues/3414)
+
+### What's fixed
+- Widont adds spaces for all paragraphs, and fixed up the modifier parameter. [#3303](https://github.com/statamic/cms/issues/3303)
+- Vertically align fieldtypes in a grid. [#3387](https://github.com/statamic/cms/issues/3387)
+- Bump elliptic from 6.5.3 to 6.5.4. [#3352](https://github.com/statamic/cms/issues/3352)
+
+
+
+## 3.0.48 (2020-03-22)
+
+### What's new
+- The Git integration can use a custom queue connection. [#3305](https://github.com/statamic/cms/issues/3305)
+
+### What's improved
+- The Stache watcher now uses an environment variable by default. [#3403](https://github.com/statamic/cms/issues/3403)
+
+### What's fixed
+- Fix `markdown` modifier not using custom parser. [#3373](https://github.com/statamic/cms/issues/3373)
+- Fix issue where the `nav` tag would incorrect label urls as external. [#3401](https://github.com/statamic/cms/issues/3401)
+- Assets default their `focus` and `focus_css` values to `50-50-1`. [#3340](https://github.com/statamic/cms/issues/3340)
+- Fix wrong Closure typehint. [#3375](https://github.com/statamic/cms/issues/3375)
+
+
+
 ## 3.0.47 (2020-03-15)
 
 ### What's new

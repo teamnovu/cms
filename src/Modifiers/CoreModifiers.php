@@ -1233,7 +1233,7 @@ class CoreModifiers extends Modifier
 
         $parser = $params[0] ?? 'default';
 
-        if (in_array($parser, [true, 'true', ''])) {
+        if (in_array($parser, [true, 'true', ''], true)) {
             $parser = 'default';
         }
 
@@ -2385,9 +2385,11 @@ class CoreModifiers extends Modifier
      * @param $value
      * @return string
      */
-    public function widont($value)
+    public function widont($value, $params)
     {
-        return Str::widont($value);
+        $params = Arr::get($params, 0, '1');
+
+        return Str::widont($value, $params);
     }
 
     /**
