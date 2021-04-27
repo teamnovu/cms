@@ -4,6 +4,7 @@ namespace Statamic;
 
 use Closure;
 use Illuminate\Http\Request;
+use Laravel\Nova\Nova;
 use Statamic\Facades\File;
 use Statamic\Facades\Site;
 use Statamic\Facades\URL;
@@ -18,6 +19,7 @@ class Statamic
     protected static $scripts = [];
     protected static $externalScripts = [];
     protected static $styles = [];
+    protected static $externalStyles = [];
     protected static $cpRoutes = [];
     protected static $webRoutes = [];
     protected static $actionRoutes = [];
@@ -79,9 +81,21 @@ class Statamic
         return static::$styles;
     }
 
+    public static function availableExternalStyles(Request $request)
+    {
+        return static::$externalStyles;
+    }
+
     public static function style($name, $path)
     {
         static::$styles[$name][] = str_finish($path, '.css');
+
+        return new static;
+    }
+
+    public static function externalStyle($url)
+    {
+        static::$externalStyles[] = $url;
 
         return new static;
     }
@@ -286,5 +300,16 @@ class Statamic
         foreach ($concrete::bindings() as $abstract => $concrete) {
             app()->bind($abstract, $concrete);
         }
+    }
+
+    public static function frontendRouteSegmentRegex()
+    {
+        $prefix = '';
+
+        if (class_exists(Nova::class)) {
+            $prefix = '(?!'.trim(Nova::path(), '/').')';
+        }
+
+        return $prefix.'.*';
     }
 }
