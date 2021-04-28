@@ -4,6 +4,7 @@ namespace Statamic\Entries;
 
 use Facades\Statamic\View\Cascade;
 use Illuminate\Support\Facades\Cache;
+use Statamic\Auth\User as StatamicUser;
 use Statamic\Contracts\Entries\LivePreviewHandler as LivePreviewContract;
 use Statamic\Support\Str;
 
@@ -24,18 +25,19 @@ class LivePreviewHandler implements LivePreviewContract
 
             $url = $entry->url();
             $currentLivePreviewUrl = Cache::get('current-live-preview-url', []);
-            if (isset($currentLivePreviewUrl[auth()->user()->id()])) {
-                $url = $currentLivePreviewUrl[auth()->user()->id()];
+            $userId = $this->getUserId();
+            if (isset($currentLivePreviewUrl[$userId])) {
+                $url = $currentLivePreviewUrl[$userId];
             } else {
                 if (! $entry->id()) {
                     $url = '/'.Str::random(10);
                 }
 
-                $currentLivePreviewUrl[auth()->user()->id()] = $url;
+                $currentLivePreviewUrl[$userId] = $url;
                 Cache::put('current-live-preview-url', $currentLivePreviewUrl);
             }
 
-            $livePreviewCache[auth()->user()->id()][$url] = [
+            $livePreviewCache[$userId][$url] = [
                 'data' => $data,
                 'collection' => $entry->collection()->handle(),
                 'blueprint' => $entry->blueprint()->handle(),
@@ -44,7 +46,7 @@ class LivePreviewHandler implements LivePreviewContract
 
             Cache::put('live-preview-data', $livePreviewCache, now()->addMinutes(5));
 
-            $livePreviewUrl = config('statamic.live_preview.external_url').$url.'?preview='.auth()->user()->id();
+            $livePreviewUrl = config('statamic.live_preview.external_url')."{$url}?preview={$userId}";
 
             return response([
                 'data' => $livePreviewUrl,
@@ -52,5 +54,16 @@ class LivePreviewHandler implements LivePreviewContract
         }
 
         return $entry->toResponse($request);
+    }
+
+    protected function getUserId()
+    {
+        $user = auth()->user();
+
+        if ($user instanceof StatamicUser) {
+            return $user->id();
+        }
+
+        return $user->getKey();
     }
 }
