@@ -14,7 +14,8 @@ class LivePreviewHandler implements LivePreviewContract
     {
         Cascade::set('live_preview', $extras);
 
-        if (config('statamic.live_preview.external_url')) {
+        $externalUrl = config('statamic.live_preview.external_url');
+        if ($externalUrl) {
             $livePreviewCache = Cache::get('live-preview-data', []);
 
             if ($entry->id()) {
@@ -46,7 +47,7 @@ class LivePreviewHandler implements LivePreviewContract
 
             Cache::put('live-preview-data', $livePreviewCache, now()->addMinutes(5));
 
-            $livePreviewUrl = config('statamic.live_preview.external_url')."{$url}?preview={$userId}";
+            $livePreviewUrl = "{$externalUrl}{$url}?preview={$userId}";
 
             return response([
                 'data' => $livePreviewUrl,
