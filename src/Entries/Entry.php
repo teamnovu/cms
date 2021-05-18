@@ -39,7 +39,10 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
         uri as routableUri;
     }
 
-    use ContainsData, ExistsAsFile, HasAugmentedInstance, FluentlyGetsAndSets, Revisable, Publishable, TracksQueriedColumns, TracksLastModified, ResolvesValues;
+    use ContainsData, ExistsAsFile, HasAugmentedInstance, FluentlyGetsAndSets, Revisable, Publishable, TracksQueriedColumns, TracksLastModified;
+    use ResolvesValues {
+        resolveGqlValue as traitResolveGqlValue;
+    }
     use HasOrigin {
         value as originValue;
         values as originValues;
@@ -710,5 +713,14 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
     public function getProtectionScheme()
     {
         return $this->value('protect');
+    }
+
+    public function resolveGqlValue($field)
+    {
+        if ($field === 'site') {
+            return $this->site();
+        }
+
+        return $this->traitResolveGqlValue($field);
     }
 }
