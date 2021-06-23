@@ -335,6 +335,11 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
 
     public function path()
     {
+        return $this->initialPath ?? $this->buildPath();
+    }
+
+    public function buildPath()
+    {
         $prefix = '';
 
         if ($this->hasDate()) {
@@ -434,11 +439,8 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
             'id' => $this->id(),
             'origin' => optional($this->origin())->id(),
             'published' => $this->published === false ? false : null,
+            'blueprint' => $this->blueprint()->handle(),
         ]);
-
-        if ($this->blueprint && $this->collection()->entryBlueprints()->count() > 1) {
-            $array['blueprint'] = $this->blueprint;
-        }
 
         $data = $this->data()->all();
 
@@ -663,6 +665,10 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
 
     public function uri()
     {
+        if (! $this->route()) {
+            return null;
+        }
+
         if ($structure = $this->structure()) {
             return $structure->entryUri($this);
         }

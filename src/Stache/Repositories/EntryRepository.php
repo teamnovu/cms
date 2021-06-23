@@ -42,6 +42,7 @@ class EntryRepository implements RepositoryContract
         return $this->query()->where('id', $id)->first();
     }
 
+    /** @deprecated */
     public function findBySlug(string $slug, string $collection): ?Entry
     {
         return $this->query()
@@ -131,7 +132,7 @@ class EntryRepository implements RepositoryContract
     {
         return [
             'title' => 'required',
-            'slug' => 'required|unique_entry_value:'.$collection->handle().',null,'.$site->handle(),
+            'slug' => 'required',
         ];
     }
 
@@ -139,7 +140,7 @@ class EntryRepository implements RepositoryContract
     {
         return [
             'title' => 'required',
-            'slug' => 'required|alpha_dash|unique_entry_value:'.$collection->handle().','.$entry->id().','.$entry->locale(),
+            'slug' => 'required|alpha_dash',
         ];
     }
 
