@@ -24,7 +24,8 @@ class LivePreviewHandler implements LivePreviewContract
                 $data = $entry->data();
             }
 
-            $url = $entry->url();
+            $url = $entry->uri();
+
             $currentLivePreviewUrl = Cache::get('current-live-preview-url', []);
             $userId = $this->getUserId();
             if (isset($currentLivePreviewUrl[$userId])) {

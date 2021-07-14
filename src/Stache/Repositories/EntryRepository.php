@@ -8,7 +8,6 @@ use Statamic\Contracts\Entries\Entry;
 use Statamic\Contracts\Entries\EntryRepository as RepositoryContract;
 use Statamic\Contracts\Entries\QueryBuilder;
 use Statamic\Entries\EntryCollection;
-use Statamic\Facades\Site;
 use Statamic\Stache\Query\EntryQueryBuilder;
 use Statamic\Stache\Stache;
 
@@ -59,12 +58,6 @@ class EntryRepository implements RepositoryContract
         $preview = request()->get('preview');
         if ($preview && $preview !== 'false') {
             $livePreviewCache = Cache::get('live-preview-data', []);
-
-            $siteObject = Site::get($site);
-
-            if ($siteObject->url() !== '/') {
-                $uri = $siteObject->url().$uri;
-            }
 
             if (! isset($livePreviewCache[$preview][$uri])) {
                 return null;
