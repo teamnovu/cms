@@ -3,7 +3,7 @@
     <div>
 
         <header class="mb-3">
-            <breadcrumb :url="cp_url('users')" :title="__('Users')" />
+            <breadcrumb :url="breadcrumbUrl" :title="__('Users')" />
             <div class="flex items-center">
                 <h1 class="flex-1" v-text="title" />
                     <dropdown-list class="mr-2" v-if="canEditBlueprint">
@@ -71,7 +71,12 @@ export default {
         actions: Object,
         method: String,
         canEditPassword: Boolean,
-        canEditBlueprint: Boolean
+        canEditBlueprint: Boolean,
+
+        breadcrumbUrl: {
+            type: String,
+            default: () => cp_url('users')
+        }
     },
 
     data() {
