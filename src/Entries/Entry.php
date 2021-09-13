@@ -726,6 +726,10 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
             return $this->site();
         }
 
+        if ($field === 'parent') {
+            return optional($this->parent())->entry();
+        }
+
         return $this->traitResolveGqlValue($field);
     }
 }
