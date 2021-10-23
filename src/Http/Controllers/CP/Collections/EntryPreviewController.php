@@ -2,11 +2,18 @@
 
 namespace Statamic\Http\Controllers\CP\Collections;
 
+use Exception;
+use Facades\Statamic\View\Cascade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Facade;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Contracts\Entries\LivePreviewHandler;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Http\Controllers\CP\PreviewController;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Throwable;
 
 class EntryPreviewController extends PreviewController
 {
