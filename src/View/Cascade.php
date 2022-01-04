@@ -7,6 +7,7 @@ use Statamic\Contracts\Data\Augmentable;
 use Statamic\Facades;
 use Statamic\Facades\GlobalSet;
 use Statamic\Facades\URL;
+use Statamic\Facades\User;
 use Statamic\Sites\Site;
 use Statamic\Support\Arr;
 
@@ -17,6 +18,7 @@ class Cascade
     protected $data;
     protected $content;
     protected $sections;
+    protected $hydratedCallbacks = [];
 
     public function __construct(Request $request, Site $site, array $data = [])
     {
@@ -77,6 +79,13 @@ class Cascade
         $this->data = $data;
     }
 
+    public function hydrated($callback)
+    {
+        $this->hydratedCallbacks[] = $callback;
+
+        return $this;
+    }
+
     public function hydrate()
     {
         $this->data([]);
@@ -87,7 +96,17 @@ class Cascade
             ->hydrateSegments()
             ->hydrateGlobals()
             ->hydrateContent()
-            ->hydrateViewModel();
+            ->hydrateViewModel()
+            ->runHydratedCallbacks();
+    }
+
+    private function runHydratedCallbacks()
+    {
+        foreach ($this->hydratedCallbacks as $callback) {
+            $callback($this);
+        }
+
+        return $this;
     }
 
     private function hydrateVariables()
@@ -170,6 +189,7 @@ class Cascade
             // Auth
             'logged_in' => $loggedIn = auth()->check(),
             'logged_out' => ! $loggedIn,
+            'current_user' => User::current(),
 
             // Date
             'current_date' => $now = now(),

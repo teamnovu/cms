@@ -4,6 +4,7 @@ namespace Tests\View;
 
 use Facades\Tests\Factories\EntryFactory;
 use Illuminate\Support\Carbon;
+use Statamic\Contracts\Auth\User as UserContract;
 use Statamic\Facades\GlobalSet;
 use Statamic\Facades\Site;
 use Statamic\Facades\User;
@@ -88,11 +89,14 @@ class CascadeTest extends TestCase
     /** @test */
     public function it_hydrates_auth_when_logged_in()
     {
-        $this->actingAs(User::make())->get('/');
+        $user = User::make();
 
-        tap($this->cascade()->hydrate()->toArray(), function ($cascade) {
+        $this->actingAs($user)->get('/');
+
+        tap($this->cascade()->hydrate()->toArray(), function ($cascade) use ($user) {
             $this->assertTrue($cascade['logged_in']);
             $this->assertFalse($cascade['logged_out']);
+            $this->assertSame($user, $cascade['current_user']);
         });
     }
 
@@ -104,6 +108,17 @@ class CascadeTest extends TestCase
         tap($this->cascade()->hydrate()->toArray(), function ($cascade) {
             $this->assertFalse($cascade['logged_in']);
             $this->assertTrue($cascade['logged_out']);
+            $this->assertNull($cascade['current_user']);
+        });
+    }
+
+    /** @test */
+    public function it_hydrates_current_user()
+    {
+        $this->actingAs(User::make())->get('/');
+
+        tap($this->cascade()->hydrate()->toArray(), function ($cascade) {
+            $this->assertInstanceOf(UserContract::class, $cascade['current_user']);
         });
     }
 
@@ -381,6 +396,24 @@ class CascadeTest extends TestCase
             foreach ($cascade['global'] as $key => $value) {
                 $this->assertArrayHasKey($key, $cascade);
             }
+        });
+    }
+
+    /** @test */
+    public function the_cascade_can_be_manipulated_after_hydration()
+    {
+        $cascade = $this->cascade();
+
+        $cascade->hydrated(function ($cascade) {
+            $cascade->set('foo', 'bar');
+            $cascade->set('xml_header', 'not the xml header');
+        });
+
+        tap($cascade->hydrate()->toArray(), function ($cascade) {
+            $this->assertEquals('bar', $cascade['foo']);
+
+            // a var that would normally be there to show the callbacks are run at the end
+            $this->assertEquals('not the xml header', $cascade['xml_header']);
         });
     }
 
