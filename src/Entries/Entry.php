@@ -5,6 +5,8 @@ namespace Statamic\Entries;
 use Facades\Statamic\View\Cascade;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Statamic\Auth\User as StatamicUser;
 use Statamic\Contracts\Auth\Protect\Protectable;
 use Statamic\Contracts\Data\Augmentable;
 use Statamic\Contracts\Data\Augmented;
@@ -436,7 +438,45 @@ class Entry implements Contract, Augmentable, Responsable, Localization, Protect
             $cascade->set('live_preview', $extras);
         });
 
+        $externalUrl = config('statamic.live_preview.external_url');
+        if ($externalUrl) {
+            if ($this->id()) {
+                $data = $this->supplements();
+            } else {
+                $data = $this->data();
+            }
+
+            $uri = $this->uri();
+            $userId = $this->getUserId();
+
+            $entry = [
+                'data' => $data->merge(['id' => $this->id()]),
+                'collection' => $this->collection()->handle(),
+                'blueprint' => $this->blueprint()->handle(),
+                'slug' => $this->slug(),
+            ];
+
+            Cache::put("live-preview-data.{$userId}", $entry, now()->addMinutes(30));
+
+            $livePreviewUrl = "{$externalUrl}{$uri}?preview={$userId}";
+
+            return response([
+                'data' => $livePreviewUrl,
+            ]);
+        }
+
         return $this->toResponse($request);
+    }
+
+    protected function getUserId()
+    {
+        $user = auth()->user();
+
+        if ($user instanceof StatamicUser) {
+            return $user->id();
+        }
+
+        return $user->getKey();
     }
 
     public function date($date = null)

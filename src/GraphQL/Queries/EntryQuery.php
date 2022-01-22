@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\Type;
 use Statamic\Facades;
 use Statamic\Facades\GraphQL;
 use Statamic\GraphQL\Types\EntryInterface;
+use Statamic\Query\LivePreviewQueryBuilder;
 
 class EntryQuery extends Query
 {
@@ -31,7 +32,12 @@ class EntryQuery extends Query
 
     public function resolve($root, $args)
     {
-        $query = Facades\Entry::query();
+        $preview = request()->get('preview');
+        if ($preview && $preview !== 'false') {
+            $query = app(LivePreviewQueryBuilder::class);
+        } else {
+            $query = Facades\Entry::query();
+        }
 
         if ($id = $args['id'] ?? null) {
             $query->where('id', $id);
