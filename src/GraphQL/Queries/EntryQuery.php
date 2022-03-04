@@ -5,6 +5,7 @@ namespace Statamic\GraphQL\Queries;
 use GraphQL\Type\Definition\Type;
 use Statamic\Facades;
 use Statamic\Facades\GraphQL;
+use Statamic\GraphQL\Queries\Concerns\FiltersQuery;
 use Statamic\GraphQL\Types\EntryInterface;
 use Statamic\GraphQL\Types\JsonArgument;
 use Statamic\Support\Arr;
