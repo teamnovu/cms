@@ -210,18 +210,14 @@ class Entries
         // TODO: but only if all collections have the same configuration.
         $collection = $this->collections[0];
 
-        if ($collection->orderable()) {
-            return 'order:asc';
-        } elseif ($collection->dated()) {
-            return 'date:desc|title:asc';
-        }
-
-        return 'title:asc';
+        return $collection->sortField().':'.$collection->sortDirection();
     }
 
     protected function querySelect($query)
     {
-        $query->select($this->getQuerySelectKeys(Entry::make()));
+        if ($keys = $this->getQuerySelectKeys(Entry::make())) {
+            $query->select($keys);
+        }
     }
 
     protected function querySite($query)
@@ -330,11 +326,13 @@ class Entries
                 $values->each(function ($value) use ($query) {
                     $query->whereTaxonomy($value);
                 });
+            } elseif ($modifier === 'not') {
+                $query->whereTaxonomyNotIn($values->all());
             } elseif ($modifier === 'any') {
                 $query->whereTaxonomyIn($values->all());
             } else {
                 throw new InvalidArgumentException(
-                    'Unknown taxonomy query modifier ['.$modifier.']. Valid values are "any" and "all".'
+                    'Unknown taxonomy query modifier ['.$modifier.']. Valid values are "any", "not", and "all".'
                 );
             }
         });

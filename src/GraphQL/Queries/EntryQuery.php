@@ -5,11 +5,15 @@ namespace Statamic\GraphQL\Queries;
 use GraphQL\Type\Definition\Type;
 use Statamic\Facades;
 use Statamic\Facades\GraphQL;
+use Statamic\GraphQL\Queries\Concerns\FiltersQuery;
 use Statamic\GraphQL\Types\EntryInterface;
+use Statamic\GraphQL\Types\JsonArgument;
 use Statamic\Query\LivePreviewQueryBuilder;
 
 class EntryQuery extends Query
 {
+    use FiltersQuery;
+
     protected $attributes = [
         'name' => 'entry',
     ];
@@ -27,6 +31,7 @@ class EntryQuery extends Query
             'collection' => GraphQL::string(),
             'uri' => GraphQL::string(),
             'site' => GraphQL::string(),
+            'filter' => GraphQL::type(JsonArgument::NAME),
         ];
     }
 
@@ -58,6 +63,8 @@ class EntryQuery extends Query
         if ($site = $args['site'] ?? null) {
             $query->where('site', $site);
         }
+
+        $this->filterQuery($query, $args['filter'] ?? []);
 
         return $query->limit(1)->get()->first();
     }

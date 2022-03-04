@@ -99,6 +99,52 @@ class QueryBuilderTest extends TestCase
         $this->markTestSkipped();
     }
 
+    /** @test */
+    public function results_are_found_using_where_between()
+    {
+        $items = collect([
+            ['reference' => 'a', 'number_field' => 8],
+            ['reference' => 'b', 'number_field' => 9],
+            ['reference' => 'c', 'number_field' => 10],
+            ['reference' => 'd', 'number_field' => 11],
+            ['reference' => 'e', 'number_field' => 12],
+        ]);
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->whereBetween('number_field', [9, 11])->get();
+
+        $this->assertCount(3, $results);
+        $this->assertEquals(['b', 'c', 'd'], $results->map->reference->all());
+    }
+
+    /** @test */
+    public function results_are_found_using_where_not_between()
+    {
+        $items = collect([
+            ['reference' => 'a', 'number_field' => 8],
+            ['reference' => 'b', 'number_field' => 9],
+            ['reference' => 'c', 'number_field' => 10],
+            ['reference' => 'd', 'number_field' => 11],
+            ['reference' => 'e', 'number_field' => 12],
+        ]);
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->whereNotBetween('number_field', [9, 11])->get();
+
+        $this->assertCount(2, $results);
+        $this->assertEquals(['a', 'e'], $results->map->reference->all());
+    }
+
+    /** @test **/
+    public function results_are_found_using_or_where_between()
+    {
+        $this->markTestSkipped();
+    }
+
+    /** @test **/
+    public function results_are_found_using_or_where_not_between()
+    {
+        $this->markTestSkipped();
+    }
+
     /** @test **/
     public function results_are_found_using_nested_where()
     {
@@ -241,6 +287,74 @@ class QueryBuilderTest extends TestCase
 
         $this->assertCount(4, $results);
         $this->assertEquals(['Post 1', 'Post 2', 'Post 5', 'Post 6'], $results->map->foo->all());
+    }
+
+    /** @test **/
+    public function results_are_found_using_when()
+    {
+        $items = collect([
+            ['reference' => 'a', 'title' => 'Frodo'],
+            ['reference' => 'b', 'title' => 'Gandalf'],
+            ['reference' => 'c', 'title' => 'Frodo\'s Precious'],
+            ['reference' => 'd', 'title' => 'Smeagol\'s Precious'],
+        ]);
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->when(true, function ($query) {
+            $query->where('title', 'like', '%Frodo%');
+        })->get();
+
+        $this->assertCount(2, $results);
+        $this->assertEquals(['a', 'c'], $results->map->reference->all());
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->when(false, function ($query) {
+            $query->where('title', 'like', '%Frodo%');
+        })->get();
+
+        $this->assertCount(4, $results);
+        $this->assertEquals(['a', 'b', 'c', 'd'], $results->map->reference->all());
+    }
+
+    /** @test **/
+    public function results_are_found_using_unless()
+    {
+        $items = collect([
+            ['reference' => 'a', 'title' => 'Frodo'],
+            ['reference' => 'b', 'title' => 'Gandalf'],
+            ['reference' => 'c', 'title' => 'Frodo\'s Precious'],
+            ['reference' => 'd', 'title' => 'Smeagol\'s Precious'],
+        ]);
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->unless(true, function ($query) {
+            $query->where('title', 'like', '%Frodo%');
+        })->get();
+
+        $this->assertCount(4, $results);
+        $this->assertEquals(['a', 'b', 'c', 'd'], $results->map->reference->all());
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->unless(false, function ($query) {
+            $query->where('title', 'like', '%Frodo%');
+        })->get();
+
+        $this->assertCount(2, $results);
+        $this->assertEquals(['a', 'c'], $results->map->reference->all());
+    }
+
+    /** @test **/
+    public function results_are_found_using_tap()
+    {
+        $items = collect([
+            ['reference' => 'a', 'title' => 'Frodo'],
+            ['reference' => 'b', 'title' => 'Gandalf'],
+            ['reference' => 'c', 'title' => 'Frodo\'s Precious'],
+            ['reference' => 'd', 'title' => 'Smeagol\'s Precious'],
+        ]);
+
+        $results = (new FakeQueryBuilder($items))->withoutData()->tap(function ($query) {
+            $query->where('title', 'like', '%Frodo%');
+        })->get();
+
+        $this->assertCount(2, $results);
+        $this->assertEquals(['a', 'c'], $results->map->reference->all());
     }
 }
 
