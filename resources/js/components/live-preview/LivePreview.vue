@@ -246,6 +246,7 @@ export default {
 
         close() {
             this.iframeSource = null;
+
             if (this.poppedOut) this.closePopout();
 
             this.animateOut().then(() => this.$emit('closed'));

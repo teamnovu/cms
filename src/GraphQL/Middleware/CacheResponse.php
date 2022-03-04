@@ -9,6 +9,10 @@ class CacheResponse
 {
     public function handle($request, Closure $next)
     {
+        if($request->get('preview') && $request->get('preview') !== 'false') {
+            return $next($request);
+        }
+
         $cache = app(ResponseCache::class);
 
         if ($response = $cache->get($request)) {

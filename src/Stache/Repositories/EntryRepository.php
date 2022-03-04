@@ -8,6 +8,7 @@ use Statamic\Contracts\Entries\Entry;
 use Statamic\Contracts\Entries\EntryRepository as RepositoryContract;
 use Statamic\Contracts\Entries\QueryBuilder;
 use Statamic\Entries\EntryCollection;
+use Statamic\Query\LivePreviewQueryBuilder;
 use Statamic\Stache\Query\EntryQueryBuilder;
 use Statamic\Stache\Stache;
 
@@ -111,6 +112,11 @@ class EntryRepository implements RepositoryContract
 
     public function query()
     {
+        $preview = request()->get('preview');
+        if ($preview && $preview !== 'false' && request()->method() === 'GET') {
+            return app(LivePreviewQueryBuilder::class);
+        }
+
         return app(QueryBuilder::class);
     }
 
