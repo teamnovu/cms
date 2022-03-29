@@ -1,5 +1,57 @@
 # Release Notes
 
+## 3.2.39 (2022-03-22)
+
+### What's fixed
+- Prevent filtering users by password hashes in the APIs. [#5604](https://github.com/statamic/cms/issues/5604) by @jasonvarga
+- Fix error when determining slug language on non-entry forms. [#5603](https://github.com/statamic/cms/issues/5603) by @jasonvarga
+
+
+
+## 3.2.38 (2022-03-14)
+
+### What's new
+- Support `whereJsonContains`, `whereJsonDoesntContain`, and `whereJsonLength` in the query builder. [#4707](https://github.com/statamic/cms/issues/4707) by @ryanmitchell
+- Add ability to select assets in the `link` fieldtype. [#4647](https://github.com/statamic/cms/issues/4647) by @jacksleight
+- Add `origin_id` to augmented entry data. [#5455](https://github.com/statamic/cms/issues/5455) by @jasonvarga
+
+### What's improved
+- Updated French translations. [#5465](https://github.com/statamic/cms/issues/5465) by @ebeauchamps
+- Slugification is language-aware. [#5494](https://github.com/statamic/cms/issues/5494) by @jasonvarga
+
+### What's fixed
+- Fix division by zero error when calculating asset ratio. [#5488](https://github.com/statamic/cms/issues/5488) by @arthurperton
+- Register Variables debugbar collector once. [#5448](https://github.com/statamic/cms/issues/5448) by @michaelr0
+- Fix `link` fieldtype not updating when switching sites. [#5447](https://github.com/statamic/cms/issues/5447) by @jasonvarga
+- Fix a few asset issues. [#5433](https://github.com/statamic/cms/issues/5433) by @jasonvarga
+- Fix `nav` tag's `is_current` and `is_parent` variables. [#5292](https://github.com/statamic/cms/issues/5292) by @arthurperton
+
+
+
+## 3.2.37 (2022-03-07)
+
+### What's improved
+- Updated Swedish translations. [#5421](https://github.com/statamic/cms/issues/5421) by @jannejava
+
+### What's fixed
+- Fix validation related error in Grid fields. [#5424](https://github.com/statamic/cms/issues/5424) by @jasonvarga
+- Fix user wizard icon size. [#5423](https://github.com/statamic/cms/issues/5423) by @duncanmcclean
+- Fix rare GitHub auth error output in the `starter-kit:install` command. [#5410](https://github.com/statamic/cms/issues/5410) by @jesseleite
+
+
+
+## 3.2.36 (2022-03-04)
+
+### What's new
+- The `route` tag can be used with a `name` parameter. [#5407](https://github.com/statamic/cms/issues/5407) by @ryanmitchell
+- The CP updater will prevent you upgrading to a version that could require manual changes. [#5401](https://github.com/statamic/cms/issues/5401) by @jasonvarga
+
+### What's fixed
+- Namespaced translation methods [#5144](https://github.com/statamic/cms/issues/5144) by @jasonvarga
+- The `range` fieldtype will save integers. [#5391](https://github.com/statamic/cms/issues/5391) by @jackmcdade
+
+
+
 ## 3.2.35 (2022-03-01)
 
 ### What's fixed
