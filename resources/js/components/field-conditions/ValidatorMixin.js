@@ -18,7 +18,7 @@ export default {
             let hiddenByRevealerField = validator.hasRevealerCondition(dottedPrefix);
 
             this.$store.commit(`publish/${this.storeName}/setHiddenField`, {
-                handle: field.handle,
+                dottedKey: dottedKey || field.handle,
                 hidden: ! passes,
                 omitValue: ! hiddenByRevealerField,
             });

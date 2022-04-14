@@ -1,9 +1,15 @@
+import HiddenValuesOmitter from '../field-conditions/Omitter.js';
+
 export default {
 
     computed: {
 
         hiddenFields() {
             return this.$store.state.publish[this.publishContainer].hiddenFields;
+        },
+
+        jsonSubmittingFields() {
+            return this.$store.state.publish[this.publishContainer].jsonSubmittingFields;
         },
 
         visibleValues() {
