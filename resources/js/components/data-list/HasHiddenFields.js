@@ -7,9 +7,12 @@ export default {
         },
 
         visibleValues() {
-            return _.omit(this.values, (_, handle) => {
-                return this.hiddenFields[handle];
-            });
+            let hiddenFields = _.chain(this.hiddenFields)
+                .pick(field => field.hidden && field.omitValue)
+                .keys()
+                .value();
+
+            return new HiddenValuesOmitter(this.values, this.jsonSubmittingFields).omit(hiddenFields);
         },
 
     }

@@ -8,12 +8,19 @@ export default {
     },
 
     methods: {
-        showField(field) {
-            let passes = new Validator(field, this.values, this.$store, this.storeName).passesConditions();
+        showField(field, dottedKey) {
+            let dottedPrefix = dottedKey
+                ? dottedKey.replace(new RegExp('\.'+field.handle+'$'), '')
+                : '';
+
+            let validator = new Validator(field, this.values, this.$store, this.storeName);
+            let passes = validator.passesConditions();
+            let hiddenByRevealerField = validator.hasRevealerCondition(dottedPrefix);
 
             this.$store.commit(`publish/${this.storeName}/setHiddenField`, {
                 handle: field.handle,
                 hidden: ! passes,
+                omitValue: ! hiddenByRevealerField,
             });
 
             return passes;
