@@ -220,6 +220,10 @@ export default {
         });
     },
 
+    mounted() {
+        this.registerFocusEvent()
+    },
+
     beforeDestroy() {
         this.closePopout();
     },
@@ -344,6 +348,66 @@ export default {
 
         componentUpdated(handle, value) {
             Vue.set(this.extras, handle, value);
+        },
+
+        registerFocusEvent() {
+            window.addEventListener(
+                'focus',
+                (event) => {
+                    const element = event.target
+                    console.log(element)
+
+                    const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
+                    const normalized = this.normalizeFieldIdentifier(fieldIdentifier)
+
+                    console.log({
+                        fieldIdentifier,
+                        normalized,
+                    })
+
+                    const targetOrigin = /^https?:\/\//.test(url) ? (new URL(url))?.origin : window.origin;
+                    // TODO: Has to be sent to the iframe instead of the current window
+                    window.postMessage(
+                        {
+                            target: normalized,
+                        },
+                        targetOrigin
+                    );
+
+                },
+            true)
+        },
+
+        getFirstFieldIdentifierRecursively(element) {
+            if (!(element instanceof Element)) {
+                return null
+            }
+
+            const name = element.getAttribute('name')
+            if (name) {
+                return name
+            }
+
+            const fieldPathPrefix = element.getAttribute('field-path-prefix')
+            if (fieldPathPrefix) {
+                return fieldPathPrefix
+            }
+
+            return this.getFirstFieldIdentifierRecursively(element.parentElement)
+        },
+
+        normalizeFieldIdentifier(fieldIdentifier) {
+            if (!fieldIdentifier) {
+                return null
+            }
+
+            if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier))  {
+                return fieldIdentifier
+                    .replaceAll('[', '.')
+                    .replaceAll(']', '')
+            }
+
+            return fieldIdentifier
         }
     }
 
