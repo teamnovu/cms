@@ -192,6 +192,10 @@ export default {
 
             this.update();
             this.animateIn();
+
+            this.$nextTick(() => {
+                this.registerFocusEvent()
+            })
         },
 
         payload: {
@@ -217,10 +221,6 @@ export default {
         this.keybinding = this.$keys.bindGlobal('mod+shift+p', () => {
             this.previewing ? this.close() : this.$emit('opened-via-keyboard');
         });
-    },
-
-    mounted() {
-        this.registerFocusEvent()
     },
 
     beforeDestroy() {
@@ -348,29 +348,32 @@ export default {
         },
 
         registerFocusEvent() {
-            window.addEventListener(
+            const lpEditorSidebar = document.querySelector('.live-preview-editor')
+
+            if (!lpEditorSidebar) return
+
+            lpEditorSidebar.addEventListener(
                 'focus',
                 (event) => {
+                    const url = 'http://localhost:3000'
                     const element = event.target
-                    console.log(element)
-
+                    const container =  this.$refs.contents
                     const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
                     const normalized = this.normalizeFieldIdentifier(fieldIdentifier)
-
-                    console.log({
-                        fieldIdentifier,
-                        normalized,
-                    })
-
+                    // TODO: check target origin with the given url
                     const targetOrigin = /^https?:\/\//.test(url) ? (new URL(url))?.origin : window.origin;
-                    // TODO: Has to be sent to the iframe instead of the current window
-                    window.postMessage(
+
+                    // console.log({
+                    //     fieldIdentifier,
+                    //     normalized,
+                    // })
+
+                   container.firstChild.contentWindow.postMessage(
                         {
                             target: normalized,
                         },
                         targetOrigin
                     );
-
                 },
             true)
         },
