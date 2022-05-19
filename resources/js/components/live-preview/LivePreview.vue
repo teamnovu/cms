@@ -189,6 +189,8 @@ export default {
     watch: {
 
         previewing(enabled) {
+            // TODO: destroy focus events
+
             if (!enabled) return;
 
             this.update();
@@ -358,22 +360,24 @@ export default {
             lpEditorSidebar.addEventListener(
                 'focus',
                 (event) => {
-                    const url = 'http://localhost:3000'
-                    const element = event.target
                     const container =  this.$refs.contents
+
+                    if (!container.firstChild) return
+
+                    const element = event.target
                     const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
-                    const normalized = this.normalizeFieldIdentifier(fieldIdentifier)
-                    // TODO: check target origin with the given url
-                    const targetOrigin = /^https?:\/\//.test(url) ? (new URL(url))?.origin : window.origin;
+                    const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier)
+                    const iframeUrl = container.firstChild.src
+                    const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
 
                     // console.log({
                     //     fieldIdentifier,
-                    //     normalized,
+                    //     normalizedIdentifier,
                     // })
 
                    container.firstChild.contentWindow.postMessage(
                         {
-                            target: normalized,
+                            focusedElement: normalizedIdentifier,
                         },
                         targetOrigin
                     );
