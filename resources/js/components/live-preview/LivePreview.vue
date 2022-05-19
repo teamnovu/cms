@@ -191,7 +191,11 @@ export default {
         previewing(enabled) {
             // TODO: destroy focus events
 
-            if (!enabled) return;
+            if (!enabled) {
+                this.unregisterFocusEvent();
+
+                return;
+            }
 
             this.update();
             this.animateIn();
@@ -352,6 +356,30 @@ export default {
             Vue.set(this.extras, handle, value);
         },
 
+        focusUpdated(event) {
+            const container =  this.$refs.contents
+
+            if (!container.firstChild) return
+
+            const element = event.target
+            const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
+            const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier)
+            const iframeUrl = container.firstChild.src
+            const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
+
+            // console.log({
+            //     fieldIdentifier,
+            //     normalizedIdentifier,
+            // })
+
+           container.firstChild.contentWindow.postMessage(
+                {
+                    focusedElement: normalizedIdentifier,
+                },
+                targetOrigin
+            );
+        },
+
         registerFocusEvent() {
             const lpEditorSidebar = document.querySelector('.live-preview-editor')
 
@@ -359,30 +387,21 @@ export default {
 
             lpEditorSidebar.addEventListener(
                 'focus',
-                (event) => {
-                    const container =  this.$refs.contents
+                this.focusUpdated,
+                true
+            )
+        },
 
-                    if (!container.firstChild) return
+        unregisterFocusEvent() {
+            const lpEditorSidebar = document.querySelector('.live-preview-editor')
 
-                    const element = event.target
-                    const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
-                    const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier)
-                    const iframeUrl = container.firstChild.src
-                    const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
+            if (!lpEditorSidebar) return
 
-                    // console.log({
-                    //     fieldIdentifier,
-                    //     normalizedIdentifier,
-                    // })
-
-                   container.firstChild.contentWindow.postMessage(
-                        {
-                            focusedElement: normalizedIdentifier,
-                        },
-                        targetOrigin
-                    );
-                },
-            true)
+            lpEditorSidebar.removeEventListener(
+                'focus',
+                this.focusUpdated,
+                true
+            )
         },
 
         getFirstFieldIdentifierRecursively(element) {
