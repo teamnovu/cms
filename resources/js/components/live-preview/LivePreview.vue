@@ -364,10 +364,10 @@ export default {
             const iframeUrl = container.firstChild.src
             const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
 
-            // console.log({
-            //     fieldIdentifier,
-            //     normalizedIdentifier,
-            // })
+            console.log({
+                fieldIdentifier,
+                normalizedIdentifier,
+            })
 
            container.firstChild.contentWindow.postMessage(
                 {
@@ -381,6 +381,8 @@ export default {
             const lpEditorSidebar = document.querySelector('.live-preview-editor')
 
             if (!lpEditorSidebar) return
+
+            console.log('registering focus event')
 
             lpEditorSidebar.addEventListener(
                 'focus',
