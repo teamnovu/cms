@@ -201,8 +201,8 @@ export default {
             this.animateIn();
 
             this.$nextTick(() => {
-                this.registerFocusEvent()
-            })
+                this.registerFocusEvent();
+            });
         },
 
         payload: {
@@ -357,22 +357,17 @@ export default {
         },
 
         focusUpdated(event) {
-            const container =  this.$refs.contents
+            const container =  this.$refs.contents;
 
-            if (!container.firstChild) return
+            if (!container.firstChild) return;
 
-            const element = event.target
-            const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element)
-            const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier)
-            const iframeUrl = container.firstChild.src
+            const element = event.target;
+            const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element);
+            const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier);
+            const iframeUrl = container.firstChild.src;
             const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
 
-            console.log({
-                fieldIdentifier,
-                normalizedIdentifier,
-            })
-
-           container.firstChild.contentWindow.postMessage(
+            container.firstChild.contentWindow.postMessage(
                 {
                     focusedElement: normalizedIdentifier,
                 },
@@ -381,61 +376,59 @@ export default {
         },
 
         registerFocusEvent() {
-            const lpEditorSidebar = document.querySelector('.live-preview-editor')
+            const lpEditorSidebar = document.querySelector('.live-preview-editor');
 
-            if (!lpEditorSidebar) return
-
-            console.log('registering focus event')
+            if (!lpEditorSidebar) return;
 
             lpEditorSidebar.addEventListener(
                 'focus',
                 this.focusUpdated,
                 true
-            )
+            );
         },
 
         unregisterFocusEvent() {
-            const lpEditorSidebar = document.querySelector('.live-preview-editor')
+            const lpEditorSidebar = document.querySelector('.live-preview-editor');
 
-            if (!lpEditorSidebar) return
+            if (!lpEditorSidebar) return;
 
             lpEditorSidebar.removeEventListener(
                 'focus',
                 this.focusUpdated,
                 true
-            )
+            );
         },
 
         getFirstFieldIdentifierRecursively(element) {
             if (!(element instanceof Element)) {
-                return null
+                return null;
             }
 
-            const name = element.getAttribute('name')
+            const name = element.getAttribute('name');
             if (name) {
-                return name
+                return name;
             }
 
-            const fieldPathPrefix = element.getAttribute('field-path-prefix')
+            const fieldPathPrefix = element.getAttribute('field-path-prefix');
             if (fieldPathPrefix) {
-                return fieldPathPrefix
+                return fieldPathPrefix;
             }
 
-            return this.getFirstFieldIdentifierRecursively(element.parentElement)
+            return this.getFirstFieldIdentifierRecursively(element.parentElement);
         },
 
         normalizeFieldIdentifier(fieldIdentifier) {
             if (!fieldIdentifier) {
-                return null
+                return null;
             }
 
             if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier))  {
                 return fieldIdentifier
                     .replaceAll('[', '.')
-                    .replaceAll(']', '')
+                    .replaceAll(']', '');
             }
 
-            return fieldIdentifier
+            return fieldIdentifier;
         }
     }
 
