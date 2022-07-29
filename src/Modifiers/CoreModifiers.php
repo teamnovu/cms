@@ -671,6 +671,8 @@ class CoreModifiers extends Modifier
     /**
      * Converts a string to a Carbon instance and formats it according to the whim of the Overlord.
      *
+     * @deprecated formatLocalized is deprecated since Carbon 2.55.0. You may want to use isoFormat instead.
+     *
      * @param $value
      * @param $params
      * @return string
@@ -2824,7 +2826,7 @@ class CoreModifiers extends Modifier
         // adapted mb_str_word_count from https://stackoverflow.com/a/17725577
         $words = empty($string = trim($value)) ? [] : preg_split('~[^\p{L}\p{N}\']+~u', $value);
 
-        return count($words);
+        return count(array_filter($words));
     }
 
     /**
