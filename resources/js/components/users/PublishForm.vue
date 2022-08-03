@@ -3,23 +3,23 @@
     <div>
 
         <header class="mb-3">
-            <breadcrumb :url="cp_url('users')" :title="__('Users')" />
+            <breadcrumb :url="breadcrumbUrl" :title="__('Users')" />
             <div class="flex items-center">
                 <h1 class="flex-1" v-text="title" />
-                    <dropdown-list class="mr-2" v-if="canEditBlueprint">
-                        <dropdown-item :text="__('Edit Blueprint')" :redirect="actions.editBlueprint" />
-                    </dropdown-list>
+                <dropdown-list class="mr-2" v-if="canEditBlueprint">
+                    <dropdown-item :text="__('Edit Blueprint')" :redirect="actions.editBlueprint" />
+                </dropdown-list>
 
-                    <change-password
-                        v-if="canEditPassword"
-                        :save-url="actions.password"
-                        class="mr-2"
-                    />
+                <change-password
+                    v-if="canEditPassword"
+                    :save-url="actions.password"
+                    class="mr-2"
+                />
 
-                    <button
-                        class="btn-primary"
-                        @click.prevent="save"
-                        v-text="__('Save')" />
+                <button
+                    class="btn-primary"
+                    @click.prevent="save"
+                    v-text="__('Save')" />
 
                 <slot name="action-buttons-right" />
             </div>
@@ -76,7 +76,12 @@ export default {
         actions: Object,
         method: String,
         canEditPassword: Boolean,
-        canEditBlueprint: Boolean
+        canEditBlueprint: Boolean,
+
+        breadcrumbUrl: {
+            type: String,
+            default: () => cp_url('users')
+        }
     },
 
     data() {
