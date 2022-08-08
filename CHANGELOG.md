@@ -1,12 +1,32 @@
 # Release Notes
 
+## 3.3.26 (2022-08-08)
+
+### What's new
+- Add option to remove empty Bard nodes. [#6438](https://github.com/statamic/cms/issues/6438), [#6447](https://github.com/statamic/cms/issues/6447) by @aerni
+- Add `saveQuietly` method and `afterSave` callbacks to `Taxonomy` and `Submission` classes. [#6427](https://github.com/statamic/cms/issues/6427) by @duncanmcclean
+- Add revisions option to Collection configuration form. [#6426](https://github.com/statamic/cms/issues/6426) by @jackmcdade
+
+### What's fixed
+- Revert "Fix parameters not being available within partial slots" added in 3.3.25 as it was discovered to be a breaking change. [#6463](https://github.com/statamic/cms/issues/6463) by @jasonvarga
+- Fix a couple of docs URLs. [#6461](https://github.com/statamic/cms/issues/6461) by @jackmcdade
+- Augment submission data in email config. [#6424](https://github.com/statamic/cms/issues/6424) by @aerni
+- Fix incorrect nav depth when using a partial multiple times. [#6440](https://github.com/statamic/cms/issues/6440) by @JohnathonKoster
+- Fix modifiers not being applied to method invocation without parenthesis. [#6416](https://github.com/statamic/cms/issues/6416) by @JohnathonKoster
+- Fix creating new empty arrays in Antlers. [#6437](https://github.com/statamic/cms/issues/6437) by @JohnathonKoster
+- Forms: Fix double parsing in email configs, some other small fixes, and add test coverage. [#6464](https://github.com/statamic/cms/issues/6464) by @jasonvarga
+- Make empty grid/replicator/bard fields be indexed as null instead of empty arrays. [#6428](https://github.com/statamic/cms/issues/6428) by @jasonvarga
+- Add vscode directory to gitignore [#6430](https://github.com/statamic/cms/issues/6430) by @MarvelousMartin
+
+
+
 ## 3.3.25 (2022-08-01)
 
 ### What's fixed
 - Fix assets not being attached to, or listed in form submission emails. [#6408](https://github.com/statamic/cms/issues/6408) by @jacksleight
 - The `embed_url` modifier handles unlisted Vimeo URLs. [#6413](https://github.com/statamic/cms/issues/6413) by @ryanmitchell
 - The `toggle` field's `inline_label` option uses markdown. [#6412](https://github.com/statamic/cms/issues/6412) by @jesseleite
-- Fix parameters not being available within partial slots. [#6405](https://github.com/statamic/cms/issues/6405) by @JohnathonKoster
+- ~~Fix parameters not being available within partial slots.~~ Reverted in 3.3.26 [#6405](https://github.com/statamic/cms/issues/6405) by @JohnathonKoster
 - Fix aggressiveness of html minification when rendering form fields. [#6394](https://github.com/statamic/cms/issues/6394) by @jesseleite
 - Fix password reset for unactivated user accounts. [#6406](https://github.com/statamic/cms/issues/6406) by @jasonvarga
 - Bump `moment` from 2.29.2 to 2.29.4 [#6410](https://github.com/statamic/cms/issues/6410) by @dependabot
