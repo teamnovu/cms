@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Mail;
 use Statamic\Contracts\Forms\Submission;
 use Statamic\Sites\Site;
 
-class SendEmails implements ShouldQueue
+class SendEmails
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     protected $submission;
     protected $site;
@@ -27,7 +27,7 @@ class SendEmails implements ShouldQueue
     public function handle()
     {
         $this->emailConfigs($this->submission)->each(function ($config) {
-            Mail::send(new Email($this->submission, $config, $this->site));
+            config('statamic.forms.send_mail_job')::dispatch($this->submission, $this->site, $config);
         });
     }
 
