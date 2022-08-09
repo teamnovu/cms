@@ -15,12 +15,12 @@ class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     protected $submission;
     protected $site;
     protected $config;
 
-    public function __construct(Submission $submission, Site $site, $config) {
+    public function __construct(Submission $submission, Site $site, $config)
+    {
         $this->submission = $submission;
         $this->site = $site;
         $this->config = $config;
