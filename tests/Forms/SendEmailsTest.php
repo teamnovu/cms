@@ -2,10 +2,10 @@
 
 namespace Tests\Forms;
 
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Mockery;
 use Statamic\Facades\Form as FacadesForm;
-use Statamic\Forms\Email;
+use Statamic\Forms\SendEmail;
 use Statamic\Forms\SendEmails;
 use Statamic\Sites\Site;
 use Tests\PreventSavingStacheItemsToDisk;
@@ -16,9 +16,9 @@ class SendEmailsTest extends TestCase
     use PreventSavingStacheItemsToDisk;
 
     /** @test */
-    public function it_sends_emails()
+    public function it_queues_email_jobs()
     {
-        Mail::fake();
+        Queue::fake();
 
         $form = tap(FacadesForm::make('test')->email([
             [
@@ -40,12 +40,12 @@ class SendEmailsTest extends TestCase
             $job->handle();
         });
 
-        Mail::assertSent(Email::class, 2);
+        Queue::assertPushed(SendEmail::class, 2);
 
-        Mail::assertSent(function (Email $mail) use ($submission, $site) {
-            return $mail->getSubmission() === $submission
-                && $mail->getSite() === $site
-                && $mail->getConfig() === [
+        Queue::assertPushed(function (SendEmail $job) use ($submission, $site) {
+            return $job->submission === $submission
+                && $job->site === $site
+                && $job->config === [
                     'from' => 'first@sender.com',
                     'to' => 'first@recipient.com',
                     'foo' => 'bar',
@@ -55,10 +55,10 @@ class SendEmailsTest extends TestCase
                 ];
         });
 
-        Mail::assertSent(function (Email $mail) use ($submission, $site) {
-            return $mail->getSubmission() === $submission
-                && $mail->getSite() === $site
-                && $mail->getConfig() === [
+        Queue::assertPushed(function (SendEmail $job) use ($submission, $site) {
+            return $job->submission === $submission
+                && $job->site === $site
+                && $job->config === [
                     'from' => 'second@sender.com',
                     'to' => 'second@recipient.com',
                     'baz' => 'qux',
@@ -67,14 +67,14 @@ class SendEmailsTest extends TestCase
     }
 
     /** @test */
-    public function it_sends_emails_when_config_contains_single_email()
+    public function it_queues_email_jobs_when_config_contains_single_email()
     {
         // The email config should be an array of email configs.
         // e.g. [ [to,from,...], [to,from,...], ... ]
         // but it's possible that a user may have only one email config.
         // e.g. [to,from,...]
 
-        Mail::fake();
+        Queue::fake();
 
         $form = tap(FacadesForm::make('test')->email([
             'from' => 'first@sender.com',
@@ -89,12 +89,12 @@ class SendEmailsTest extends TestCase
             $job->handle();
         });
 
-        Mail::assertSent(Email::class, 1);
+        Queue::assertPushed(SendEmail::class, 1);
 
-        Mail::assertSent(function (Email $mail) use ($submission, $site) {
-            return $mail->getSubmission() === $submission
-                && $mail->getSite() === $site
-                && $mail->getConfig() === [
+        Queue::assertPushed(function (SendEmail $job) use ($submission, $site) {
+            return $job->submission === $submission
+                && $job->site === $site
+                && $job->config === [
                     'from' => 'first@sender.com',
                     'to' => 'first@recipient.com',
                     'foo' => 'bar',
@@ -106,9 +106,9 @@ class SendEmailsTest extends TestCase
      * @test
      * @dataProvider noEmailsProvider
      */
-    public function no_emails_are_sent_if_none_are_configured($emailConfig)
+    public function no_email_jobs_are_queued_if_none_are_configured($emailConfig)
     {
-        Mail::fake();
+        Queue::fake();
 
         $form = tap(FacadesForm::make('test')->email($emailConfig))->save();
 
@@ -117,7 +117,7 @@ class SendEmailsTest extends TestCase
             Mockery::mock(Site::class)
         ))->handle();
 
-        Mail::assertNotSent(Email::class);
+        Queue::assertNotPushed(SendEmail::class);
     }
 
     public function noEmailsProvider()

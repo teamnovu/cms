@@ -1,5 +1,82 @@
 # Release Notes
 
+## 3.3.31 (2022-08-19)
+
+### What's new
+- Add `user_roles` tag. [#6517](https://github.com/statamic/cms/issues/6517) by @ryanmitchell
+- Add `user_groups` tag. [#6505](https://github.com/statamic/cms/issues/6505) by @ryanmitchell
+- Add `user` scope on `cache` tag. [#6515](https://github.com/statamic/cms/issues/6515) by @ryanmitchell
+
+### What's fixed
+- Compatibility for EloquentQueryBuilder. [#5844](https://github.com/statamic/cms/issues/5844) by @ryanmitchell
+- Fix double `SubmissionCreated` event. [#6532](https://github.com/statamic/cms/issues/6532) by @ryanmitchell
+- Fix `user:reset_password_form` tag action. [#6527](https://github.com/statamic/cms/issues/6527) by @jasonvarga
+- Fix type in root page field instructions. [#6512](https://github.com/statamic/cms/issues/6512) by @sjclark
+
+
+
+## 3.3.30 (2022-08-17)
+
+### What's new
+- Add `always_save` field config to allow overriding of conditional field data flow. [#6387](https://github.com/statamic/cms/issues/6387) by @jesseleite
+
+### What's improved
+- Deleting assets and terms will update their references, and added an option to disable the feature. [#6504](https://github.com/statamic/cms/issues/6504) by @jesseleite
+
+### What's fixed
+- Fix saving of `statamic://` links in Bard when saving as html. [#6511](https://github.com/statamic/cms/issues/6511) by @jesseleite
+- Fix `revealer` handling when multiple field conditions are being evaluated. [#6443](https://github.com/statamic/cms/issues/6443) by @jesseleite
+- Prevent Glide routes adding unnecessary cookies. [#6502](https://github.com/statamic/cms/issues/6502) by @schwartzmj
+
+
+
+## 3.3.29 (2022-08-15)
+
+### What's new
+- Added `bard_text`, `bard_html`, and `bard_items` modifiers. [#6226](https://github.com/statamic/cms/issues/6226) by @jacksleight
+- Added `antlers` modifier. [#6489](https://github.com/statamic/cms/issues/6489) by @jasonvarga
+- Added `blueprint` to augmented entry data. [#6015](https://github.com/statamic/cms/issues/6015) by @jacksleight
+- Ability to add Form JS drivers to an addon's service provider. [#6499](https://github.com/statamic/cms/issues/6499) by @jacksleight
+
+### What's improved
+- Use singular nouns in default blueprint handles and titles. [#5941](https://github.com/statamic/cms/issues/5941) by @jacksleight
+
+### What's fixed
+- Fix stretched SVG thumbnails. [#6500](https://github.com/statamic/cms/issues/6500) by @jacksleight
+- Fix depth issues when using recursive children in Runtime Antlers. [#6490](https://github.com/statamic/cms/issues/6490) by @JohnathonKoster
+- Fix `raw` modifier on fields with `antlers: true` in Runtime Antlers. [#6484](https://github.com/statamic/cms/issues/6484) by @JohnathonKoster
+- Fix extra margin on narrow date only fields [#6435](https://github.com/statamic/cms/issues/6435) by @jacksleight
+- Fix error when filtering by collection in CP entry listing with multiple collections. [#5915](https://github.com/statamic/cms/issues/5915) by @psyao
+
+
+
+## 3.3.28 (2022-08-11)
+
+### What's new
+- Provide full form data when using form tags in Blade. [#5892](https://github.com/statamic/cms/issues/5892) by @jacksleight
+- Form emails are sent in separate jobs, and you can override the class in order to customize retries, backoff, etc. [#6481](https://github.com/statamic/cms/issues/6481) by @okaufmann
+
+### What's fixed
+- Fix asset versioning path conflicts. [#6444](https://github.com/statamic/cms/issues/6444) by @jonassiewertsen
+
+
+
+## 3.3.27 (2022-08-09)
+
+### What's improved
+- Auto generated entry titles get trimmed. [#6473](https://github.com/statamic/cms/issues/6473) by @aerni
+- Reorderable select field options are styled with grab handles. [#6451](https://github.com/statamic/cms/issues/6451) by @jacksleight
+- Added phpdoc type information to AddonServiceProvider. [#6465](https://github.com/statamic/cms/issues/6465) by @j6s
+
+### What's fixed
+- Fix terms not resolving query builders (e.g. nested entries or terms) in GraphQL. [#6379](https://github.com/statamic/cms/issues/6379) by @boydseltenrijch
+- Fix `locales` tag not outputting collection specific term URLs. [#6466](https://github.com/statamic/cms/issues/6466) by @jasonvarga
+- Fix methods getting called more than expected in Antlers. [#6458](https://github.com/statamic/cms/issues/6458) by @JohnathonKoster
+- Prevent `theme:output` tag from rendering files outside of the `resources` directory. [#6456](https://github.com/statamic/cms/issues/6456) by @jasonvarga
+- Remove redundant `orWhere` methods in entry and term query builders. [#6460](https://github.com/statamic/cms/issues/6460) by @ryanmitchell
+
+
+
 ## 3.3.26 (2022-08-08)
 
 ### What's new
