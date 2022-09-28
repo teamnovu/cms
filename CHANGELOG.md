@@ -1,5 +1,67 @@
 # Release Notes
 
+## 3.3.40 (2022-09-27)
+
+### What's improved
+- French translations [#6780](https://github.com/statamic/cms/issues/6780) by @ebeauchamps
+
+### What's fixed
+- Fix asset selector grid columns. [#6790](https://github.com/statamic/cms/issues/6790) by @jacksleight
+- Fix asset browse button inside link fieldtype. [#6788](https://github.com/statamic/cms/issues/6788) by @jacksleight
+- Fix Bard set menu options not working. [#6779](https://github.com/statamic/cms/issues/6779) by @jacksleight
+
+
+
+## 3.3.39 (2022-09-23)
+
+### What's new
+- Ability to replace assets by either changing references to another asset, or reuploading a file. [#4832](https://github.com/statamic/cms/issues/4832) by @jesseleite
+
+### What's fixed
+- Improve handling of invalid Replicator and Bard field data [#6708](https://github.com/statamic/cms/issues/6708) by @jacksleight
+- Fix shallow Bard set drag and drop ghost in Chrome [#6776](https://github.com/statamic/cms/issues/6776) by @jacksleight
+
+
+
+## 3.3.38 (2022-09-22)
+
+### What's new
+- Add single asset/folder actions to grid view. [#6677](https://github.com/statamic/cms/issues/6677) by @jacksleight
+- Add `key_by` modifier. [#6763](https://github.com/statamic/cms/issues/6763) by @jasonvarga
+- Add `glide:data_url` tag to generate data URLs. [#6753](https://github.com/statamic/cms/issues/6753) by @jacksleight
+- Add `collapse` option to Bard fieldtype. [#6734](https://github.com/statamic/cms/issues/6734) by @jacksleight
+- Add `cookie` tag [#6748](https://github.com/statamic/cms/issues/6748) by @ryanmitchell
+- Add custom build directory and hot file to `vite` tag. [#6752](https://github.com/statamic/cms/issues/6752) by @joshuablum
+- Add `files` fieldtype. [#6736](https://github.com/statamic/cms/issues/6736) by @jasonvarga
+
+### What's improved
+- Asset Browser thumbnail style now matches the fieldtype. [#6715](https://github.com/statamic/cms/issues/6715) by @jackmcdade
+- Improve display of Grid and Replicator replicator preview. [#6733](https://github.com/statamic/cms/issues/6733) by @jacksleight
+- SVGs get a better replicator preview, and ability to set alt text. [#6765](https://github.com/statamic/cms/issues/6765) by @jacksleight
+- Spanish Translations. [#6761](https://github.com/statamic/cms/issues/6761) by @cesaramirez
+
+### What's fixed
+- Fix asset replicator preview. [#6732](https://github.com/statamic/cms/issues/6732) by @jacksleight
+- Fix using prefixed variables in conditions. [#6760](https://github.com/statamic/cms/issues/6760) by @JohnathonKoster
+- Fix action value processing. [#6754](https://github.com/statamic/cms/issues/6754) by @jasonvarga
+
+
+
+## 3.3.37 (2022-09-20)
+
+### What's new
+- Add Portuguese Brazilian translation. [#6739](https://github.com/statamic/cms/issues/6739) by @rodrigomantoan
+
+### What's improved
+- German translations. [#6716](https://github.com/statamic/cms/issues/6716) by @helloDanuk
+
+### What's fixed
+- Fix live preview scroll position handling when url contains a port number. [#6742](https://github.com/statamic/cms/issues/6742) by @o1y
+- Fix plus buttons spacing in Replicator. [#6722](https://github.com/statamic/cms/issues/6722) by @arthurperton
+- Fix static cache invalidation. [#6720](https://github.com/statamic/cms/issues/6720) by @jasonvarga
+
+
+
 ## 3.3.36 (2022-09-13)
 
 ### What's new
