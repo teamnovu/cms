@@ -2,12 +2,13 @@
 
 namespace Statamic\Search;
 
-use Closure;
+use Statamic\Contracts\Search\Searchable;
 use Statamic\Support\Arr;
 
 abstract class Index
 {
     protected $name;
+    protected $locale;
     protected $config;
 
     abstract public function search($query);
@@ -20,10 +21,11 @@ abstract class Index
 
     abstract protected function deleteIndex();
 
-    public function __construct($name, array $config)
+    public function __construct($name, array $config, string $locale = null)
     {
-        $this->name = $name;
+        $this->name = $locale ? $name.'_'.$locale : $name;
         $this->config = $config;
+        $this->locale = $locale;
     }
 
     public function name()
@@ -39,6 +41,11 @@ abstract class Index
     public function config()
     {
         return $this->config;
+    }
+
+    public function locale()
+    {
+        return $this->locale;
     }
 
     public function for($query)
@@ -71,8 +78,8 @@ abstract class Index
 
     public function insertMultiple($documents)
     {
-        $documents = (new Documents($documents))->mapWithKeys(function ($item) {
-            return [$item->reference() => $this->searchables()->fields($item)];
+        $documents = (new Documents($documents))->mapWithKeys(function (Searchable $item) {
+            return [$item->getSearchReference() => $this->searchables()->fields($item)];
         });
 
         $this->insertDocuments($documents);
@@ -90,13 +97,8 @@ abstract class Index
         return new Searchables($this);
     }
 
-    public function filter($searchable)
+    public function extraAugmentedResultData(Result $result)
     {
-        if (isset($this->config()['filter'])
-            && $this->config()['filter'] instanceof Closure) {
-            return $this->config()['filter']($searchable);
-        }
-
-        return true;
+        return [];
     }
 }
