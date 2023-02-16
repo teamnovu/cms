@@ -1,5 +1,57 @@
 # Release Notes
 
+## 3.4.4 (2023-02-15)
+
+### What's new
+- Added a `vite:asset` tag. [#7477](https://github.com/statamic/cms/issues/7477) by @mwagena
+
+### What's improved
+- French translations [#7503](https://github.com/statamic/cms/issues/7503) by @ebeauchamps
+
+### What's fixed
+- Fix pagination in the `taxonomy` tag. [#7531](https://github.com/statamic/cms/issues/7531) by @ryanmitchell
+- Updated Tiptap in order to fix tables, code blocks, etc. [#7514](https://github.com/statamic/cms/issues/7514) by @jasonvarga
+- Fix issue where you couldn't select text in nested Bard fields in Firefox. [#7525](https://github.com/statamic/cms/issues/7525) by @o1y
+- Fix inability to position cursor after a link in Bard. [#7528](https://github.com/statamic/cms/issues/7528) by @o1y
+- Fix missing dropcursor in Bard. [#7518](https://github.com/statamic/cms/issues/7518) by @o1y
+- Fix Bard set popover flicker. [#7535](https://github.com/statamic/cms/issues/7535) by @o1y
+- Fix issue where pasting links into Bard would strip out attributes. [#7517](https://github.com/statamic/cms/issues/7517) by @o1y
+- Fix typo in preference start page instructions. [#7538](https://github.com/statamic/cms/issues/7538) by @ryanmitchell
+- Fix docs URL on Updater page. [#7539](https://github.com/statamic/cms/issues/7539) by @joshuablum
+- Prevent deprecation warnings in translate commands. [#7537](https://github.com/statamic/cms/issues/7537) by @ryanmitchell
+- Fix issue where you couldn't position the cursor between Bard sets. [#7516](https://github.com/statamic/cms/issues/7516) by @o1y
+- Fix augmentation issue in Antlers when using the scope parameter. [#7436](https://github.com/statamic/cms/issues/7436) by @JohnathonKoster
+
+
+
+## 3.4.3 (2023-02-08)
+
+### What's new
+- Contextual keyword snippets for `local` search driver. [#7144](https://github.com/statamic/cms/issues/7144) by @jacksleight
+- Support adding computed values to multiple collections at once. [#7165](https://github.com/statamic/cms/issues/7165) by @jacksleight
+- Custom Bard button active and visible callbacks. [#7479](https://github.com/statamic/cms/issues/7479) by @jacksleight
+
+### What's improved
+- Antlers logs will include the file and line numbers. [#7438](https://github.com/statamic/cms/issues/7438) by @JohnathonKoster
+- Add view and visit url options to collection listing dropdowns. [#7469](https://github.com/statamic/cms/issues/7469) by @arthurperton
+- Cache result of schema call to avoid duplication. [#7466](https://github.com/statamic/cms/issues/7466) by @ryanmitchell
+- Norwegian translations. [#7472](https://github.com/statamic/cms/issues/7472) by @espenlg
+- French translations. [#7463](https://github.com/statamic/cms/issues/7463) by @ebeauchamps
+
+### What's fixed
+- Fix `nocache` tag when using URLs with multiple query parameters. [#7486](https://github.com/statamic/cms/issues/7486) by @arthurperton
+- Fix `nocache` tag behavior when using the `ignore_query_string` setting. [#7488](https://github.com/statamic/cms/issues/7488) by @arthurperton
+- Fix `orWhereJsonLength()` method in the query builders. [#7462](https://github.com/statamic/cms/issues/7462) by @arthurperton
+- Fix bard toolbar button active states. [#7470](https://github.com/statamic/cms/issues/7470) by @jacksleight
+- Fix queue worker state issues around assets and stache indexes. [#7467](https://github.com/statamic/cms/issues/7467) by @jesseleite
+- Fix underline in Bard not outputting any HTML tags. [#7494](https://github.com/statamic/cms/issues/7494) by @mauricewijnia
+- Fix Bard and Replicator dropdown positioning when in secondary sections. [#7478](https://github.com/statamic/cms/issues/7478) by @arthurperton
+- Fix a few search issues. [#7481](https://github.com/statamic/cms/issues/7481) by @jasonvarga
+- Fix warning when a search index is empty. [#7492](https://github.com/statamic/cms/issues/7492) by @simonworkhouse
+- Workaround for GitHub Actions network issue. [#7482](https://github.com/statamic/cms/issues/7482) by @jasonvarga
+
+
+
 ## 3.4.2 (2023-02-02)
 
 ### What's improved
