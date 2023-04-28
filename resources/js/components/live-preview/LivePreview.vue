@@ -189,10 +189,20 @@ export default {
     watch: {
 
         previewing(enabled) {
-            if (!enabled) return;
+            // TODO: destroy focus events
+
+            if (!enabled) {
+                this.unregisterFocusEvent();
+
+                return;
+            }
 
             this.update();
             this.animateIn();
+
+            this.$nextTick(() => {
+                this.registerFocusEvent();
+            });
         },
 
         payload: {
@@ -344,6 +354,81 @@ export default {
 
         componentUpdated(handle, value) {
             Vue.set(this.extras, handle, value);
+        },
+
+        focusUpdated(event) {
+            const container =  this.$refs.contents;
+
+            if (!container.firstChild) return;
+
+            const element = event.target;
+            const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element);
+            const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier);
+            const iframeUrl = container.firstChild.src;
+            const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
+
+            container.firstChild.contentWindow.postMessage(
+                {
+                    focusedElement: normalizedIdentifier,
+                },
+                targetOrigin
+            );
+        },
+
+        registerFocusEvent() {
+            const lpEditorSidebar = document.querySelector('.live-preview-editor');
+
+            if (!lpEditorSidebar) return;
+
+            lpEditorSidebar.addEventListener(
+                'focus',
+                this.focusUpdated,
+                true
+            );
+        },
+
+        unregisterFocusEvent() {
+            const lpEditorSidebar = document.querySelector('.live-preview-editor');
+
+            if (!lpEditorSidebar) return;
+
+            lpEditorSidebar.removeEventListener(
+                'focus',
+                this.focusUpdated,
+                true
+            );
+        },
+
+        getFirstFieldIdentifierRecursively(element) {
+            if (!(element instanceof Element)) {
+                return null;
+            }
+
+            const name = element.getAttribute('name');
+            if (name) {
+                return name;
+            }
+
+            const fieldPathPrefix = element.getAttribute('field-path-prefix');
+            if (fieldPathPrefix) {
+                return fieldPathPrefix;
+            }
+
+            return this.getFirstFieldIdentifierRecursively(element.parentElement);
+        },
+
+        normalizeFieldIdentifier(fieldIdentifier) {
+            if (!fieldIdentifier) {
+                return null;
+            }
+
+            if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier))  {
+                return fieldIdentifier
+                    .replaceAll('[', '.')
+                    .replaceAll(']', '');
+            }
+
+            return fieldIdentifier;
         }
     }
 

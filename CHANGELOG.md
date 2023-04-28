@@ -1,5 +1,17 @@
 # Release Notes
 
+## 3.4.8.2 (2023-04-28)
+
+### What's new
+- The changelog now includes versions of the `teamnovu/cms` fork.
+- The readme now contains information about the fork.
+- [DIFF-TO-CORE.md](./DIFF-TO-CORE.md) has been added to the repository. It contains a list of changes in this fork compared to the core and must be kept up to date.
+
+### What's changed
+- The Live Preview using postMessage has been changed slightly. [#6067](https://github.com/statamic/cms/issues/6067) by @Buffalom
+
+
+
 ## 3.4.8 (2023-04-25)
 
 ### What's new
