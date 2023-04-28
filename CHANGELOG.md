@@ -1,5 +1,15 @@
 # Release Notes
 
+## 3.4.8.2 (2023-04-28)
+
+### What's new
+- The changelog now includes versions of the `teamnovu/cms` fork.
+
+### What's changed
+- The Live Preview using postMessage has been changed slightly. [#6067](https://github.com/statamic/cms/issues/6067) by @Buffalom
+
+
+
 ## 3.4.8 (2023-04-25)
 
 ### What's new
