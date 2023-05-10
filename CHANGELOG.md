@@ -1,5 +1,15 @@
 # Release Notes
 
+## 4.0.0.1 (2023-05-10)
+
+### What's new
+- The fork has been updated to [v4.0.0](https://github.com/statamic/cms/releases/tag/v4.0.0).
+
+### What's fixed
+- Fix label for attribute when using a custom username key. [4323248](https://github.com/teamnovu/cms/commit/432324893d1fd5669d92031015dfd0f845f1e56b) by @Buffalom
+
+
+
 ## 4.0.0 (2023-05-09)
 
 ### What's new
