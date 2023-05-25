@@ -1,5 +1,40 @@
 # Release Notes
 
+## 3.4.11 (2023-05-06)
+
+### What's fixed
+- Fix combination of `yield` and `else` in Antlers templates causing blank pages.  [#8067](https://github.com/statamic/cms/issues/8067) by @JohnathonKoster
+
+
+
+## 3.4.10 (2023-05-05)
+
+### What's new
+- Add `insecure` flag to skip SSL verification when warming static cache. [#8056](https://github.com/statamic/cms/issues/8056) by @o1y
+
+### What's fixed
+- Fixes checking for whether sections exist. [#7984](https://github.com/statamic/cms/issues/7984) by @JohnathonKoster
+- Fix assignments from within associative arrays/maps. [#7991](https://github.com/statamic/cms/issues/7991) by @JohnathonKoster
+- Fix Vimeo unlisted videos in `video` fieldtype. [#8062](https://github.com/statamic/cms/issues/8062) by @ryanmitchell
+
+
+
+## 3.4.9 (2023-05-03)
+
+### What's new
+- Add `min_files` option to assets fieldtype. [#8015](https://github.com/statamic/cms/issues/8015) by @ryanmitchell
+
+### What's improved
+- French translations [#8000](https://github.com/statamic/cms/issues/8000) by @ebeauchamps
+
+### What's fixed
+- Fix iOS scroll in stacks. [#8035](https://github.com/statamic/cms/issues/8035) by @jasonvarga
+- Fix fields added to blueprints through event not being added to GraphQL. [#7249](https://github.com/statamic/cms/issues/7249) by @aerni
+- Fix invalidation and absolute URLs for entries with redirects. [#7173](https://github.com/statamic/cms/issues/7173) by @arthurperton
+- Only show Copy Asset URL action for public containers. [#8005](https://github.com/statamic/cms/issues/8005) by @jasonvarga
+
+
+
 ## 3.4.8.2 (2023-04-28)
 
 ### What's new
