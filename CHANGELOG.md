@@ -1,5 +1,67 @@
 # Release Notes
 
+## 4.1.3 (2023-05-17)
+
+### What's improved
+- French translations [#8142](https://github.com/statamic/cms/issues/8142) by @ebeauchamps
+
+### What's fixed
+- Fix margins disappearing in Replicator when hitting max items. [#8164](https://github.com/statamic/cms/issues/8164) by @jasonvarga
+- Fix CP asset reupload not working for non-super users. [#8163](https://github.com/statamic/cms/issues/8163) by @joshuablum
+- Fix suggestable condition fields. [#8160](https://github.com/statamic/cms/issues/8160) by @jasonvarga
+- Fix path for SVG copy icon in the Updater popover. [#8161](https://github.com/statamic/cms/issues/8161) by @joshuablum
+- Fix 404 response status view cascade hydration. [#8159](https://github.com/statamic/cms/issues/8159) by @jesseleite
+- Fix error when exporting starter kit. [#8156](https://github.com/statamic/cms/issues/8156) by @ryanmitchell
+- Fix publishables not getting auto published. [#8151](https://github.com/statamic/cms/issues/8151) by @jasonvarga
+- Fix asset fieldtype min_files validation and the show set alt option. [#8148](https://github.com/statamic/cms/issues/8148) by @jasonvarga
+- Fix missing default field in `color` fieldtype settings. [#8152](https://github.com/statamic/cms/issues/8152) by @jackmcdade
+- Fix visibility of white swatch in the `color` fieldtype. [#8153](https://github.com/statamic/cms/issues/8153) by @mytchallb
+
+
+
+## 4.1.2 (2023-05-15)
+
+### What's improved
+- Invalid Avatar URL falls back to initials. [#8139](https://github.com/statamic/cms/issues/8139) by @jasonvarga
+- Russian translations. [#8135](https://github.com/statamic/cms/issues/8135) by @dragomano
+
+### What's fixed
+- Adjust a couple of fieldtype translations. [#8141](https://github.com/statamic/cms/issues/8141) by @jasonvarga
+- Fix icon fieldtype default. [#8140](https://github.com/statamic/cms/issues/8140) by @jasonvarga
+
+
+
+## 4.1.1 (2023-05-12)
+
+### What's fixed
+- Fix relationship field buttons drag delay. [#8121](https://github.com/statamic/cms/issues/8121) by @o1y
+- Fix imported Bard button config override. [#8122](https://github.com/statamic/cms/issues/8122) by @jacksleight
+- Fix link fieldtype's options appearing behind things. [#8130](https://github.com/statamic/cms/issues/8130) by @jasonvarga
+
+
+
+## 4.1.0 (2023-05-11)
+
+### What's new
+- Include URL in Live Preview post message. [#8100](https://github.com/statamic/cms/issues/8100) by @jacksleight
+
+### What's improved
+- French translations. [#8109](https://github.com/statamic/cms/issues/8109) by @ebeauchamps
+- German translations. [#8096](https://github.com/statamic/cms/issues/8096) by @helloDanuk
+
+### What's fixed
+- Fix confirmation modal's confirm button text. [#8111](https://github.com/statamic/cms/issues/8111) by @jasonvarga
+- Fix asset upload button disappearing if you have selections. [#8097](https://github.com/statamic/cms/issues/8097) by @jackmcdade
+- Fix template fieldtype's options appearing behind things. [#8119](https://github.com/statamic/cms/issues/8119) by @jasonvarga
+- Fix full screen mode translation casing. [#8108](https://github.com/statamic/cms/issues/8108) by @jasonvarga
+- Fix consistency of sortable items. [#8083](https://github.com/statamic/cms/issues/8083) by @jasonvarga
+- Fix items disappearing behind stacks. [#8103](https://github.com/statamic/cms/issues/8103) by @jasonvarga
+- Fix issue with Time fields inside Grid. [#8094](https://github.com/statamic/cms/issues/8094) by @jackmcdade
+- Fix asset grid tile size. [#8095](https://github.com/statamic/cms/issues/8095) by @jackmcdade
+- Fix Bard fullscreen button aria-label. [#8089](https://github.com/statamic/cms/issues/8089) by @jacksleight
+
+
+
 ## 4.0.0.1 (2023-05-10)
 
 ### What's new

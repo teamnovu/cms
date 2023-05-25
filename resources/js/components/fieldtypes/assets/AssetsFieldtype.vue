@@ -62,7 +62,7 @@
                         @dragend="$emit('blur')"
                         :constrain-dimensions="true"
                         :disabled="isReadOnly"
-                        :distance="10"
+                        :distance="5"
                         :animate="false"
                         append-to="body"
                     >
@@ -73,6 +73,7 @@
                                 :asset="asset"
                                 :read-only="isReadOnly"
                                 :show-filename="config.show_filename"
+                                :show-set-alt="config.show_set_alt"
                                 @updated="assetUpdated"
                                 @removed="assetRemoved"
                                 @id-changed="idChanged(asset.id, $event)">
@@ -88,7 +89,7 @@
                                 handle-class="asset-row"
                                 :vertical="true"
                                 :disabled="isReadOnly"
-                                :distance="10"
+                                :distance="5"
                                 :mirror="false"
                             >
                                 <tbody ref="assets">
