@@ -1,5 +1,12 @@
 # Release Notes
 
+## 4.5.0.1 (2023-06-06)
+
+### What's new
+- The fork has been updated to [v4.5.0](https://github.com/statamic/cms/releases/tag/v4.5.0).
+
+
+
 ## 4.5.0 (2023-06-02)
 
 ### What's new
