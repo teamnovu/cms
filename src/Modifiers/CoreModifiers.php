@@ -328,6 +328,11 @@ class CoreModifiers extends Modifier
             ->all();
     }
 
+    public function classes($value)
+    {
+        return Arr::toCssClasses($value);
+    }
+
     public function className($value)
     {
         return get_class($value);
@@ -3024,6 +3029,10 @@ class CoreModifiers extends Modifier
 
         if (Str::contains($url, 'youtube.com/watch?v=')) {
             $url = str_replace('watch?v=', 'embed/', $url);
+
+            if (Str::contains($url, '&t=')) {
+                $url = str_replace('&t=', '?start=', $url);
+            }
         }
 
         if (Str::contains($url, 'youtube.com')) {
