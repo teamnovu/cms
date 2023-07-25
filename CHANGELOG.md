@@ -1,5 +1,48 @@
 # Release Notes
 
+## 4.13.0 (2023-07-24)
+
+### What's new
+- Add word count option to Bard. [#8445](https://github.com/statamic/cms/issues/8445) by @markguleno
+- Support querying entries in a specific site in GraphQL. [#8446](https://github.com/statamic/cms/issues/8446) by @fabiangigler
+- Support for using recursion on arbitrary array data in Antlers. [#8421](https://github.com/statamic/cms/issues/8421) by @JohnathonKoster
+
+### What's fixed
+- Fix a hardcoded live preview URL when editing taxonomy terms. [#8461](https://github.com/statamic/cms/issues/8461) by @ryanmitchell
+- Hide heading when there are no unlisted addons. [#8479](https://github.com/statamic/cms/issues/8479) by @duncanmcclean
+- Handle `nocache` tag error. [#8449](https://github.com/statamic/cms/issues/8449) by @jasonvarga
+- Avoid showing Stache size label in the Cache utility when there is no size. [#8480](https://github.com/statamic/cms/issues/8480) by @duncanmcclean
+
+
+
+## 4.12.0 (2023-07-20)
+
+### What's new
+- Add `query_scopes` option to the relationship fieldtypes. [#8456](http://github.com/statamic/cms/pull/8456) by @jacksleight
+
+### What's improved
+- French translations. [#8451](http://github.com/statamic/cms/pull/8451) by @ebeauchamps
+
+### What's fixed
+- Fix error handling for recent curl bug. [#8475](http://github.com/statamic/cms/pull/8475) by @jesseleite
+- Bump word-wrap from 1.2.3 to 1.2.4. [#8466](http://github.com/statamic/cms/pull/8466) by @dependabot
+- Only show code block copy button on https. [#8457](http://github.com/statamic/cms/pull/8457) by @jasonvarga
+
+
+
+## 4.11.0 (2023-07-13)
+
+### What's new
+- Markdown upgrades. [#8417](https://github.com/statamic/cms/issues/8417) by @jackmcdade
+
+### What's fixed
+- Swap SVG sanitizer packages for one with an appropriate license. [#8428](https://github.com/statamic/cms/issues/8428) by @jasonvarga
+- Fix taxonomy term filtering inconsistencies between Tag and API. [#8389](https://github.com/statamic/cms/issues/8389) by @jesseleite
+- Bump `semver` from 5.7.1 to 5.7.2 [#8434](https://github.com/statamic/cms/issues/8434) by @dependabot
+- Pint formatting [#8444](https://github.com/statamic/cms/issues/8444) by @jasonvarga
+
+
+
 ## 4.10.2.1 (2023-07-25)
 
 ### What's new
