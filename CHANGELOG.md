@@ -1,5 +1,59 @@
 # Release Notes
 
+## 4.10.2 (2023-07-10)
+
+### What's improved
+- Chinese translations. [#8418](https://github.com/statamic/cms/issues/8418) by @xuchunyang
+
+### What's fixed
+- Fix pagination in entries stack selector. [#8426](https://github.com/statamic/cms/issues/8426) by @jasonvarga
+- Bump tough-cookie from 4.1.2 to 4.1.3 [#8423](https://github.com/statamic/cms/issues/8423) by @dependabot
+
+
+
+## 4.10.1 (2023-07-06)
+
+### What's improved
+- French translations. [#8409](https://github.com/statamic/cms/issues/8409) by @ebeauchamps
+
+### What's fixed
+- Fix blueprint events being dispatched repeatedly, especially when using Laravel Telescope. [#8048](https://github.com/statamic/cms/issues/8048) by @morhi
+- Fix mapping of search results in entries fieldtype. [#8414](https://github.com/statamic/cms/issues/8414) by @jasonvarga
+- Fix Live Preview viewport not being reset when switching back to "Responsive". [#8402](https://github.com/statamic/cms/issues/8402) by @wiebkevogel
+
+
+
+## 4.10.0 (2023-07-05)
+
+### What's new
+- Added `sanitize` param to the `svg` tag. [#8408](https://github.com/statamic/cms/issues/8408) by @jasonvarga
+
+### What's improved
+- French translations. [#8388](https://github.com/statamic/cms/issues/8388) by @ebeauchamps
+
+### What's fixed
+- Bring back the password reset link for non-OAuth sites. [#8396](https://github.com/statamic/cms/issues/8396) by @jackmcdade
+- Add some missing translation calls. [#8387](https://github.com/statamic/cms/issues/8387) by @ebeauchamps
+
+
+
+## 4.9.2 (2023-06-30)
+
+### What's fixed
+- Fix search index not being used in the entries fieldtype. [#8253](https://github.com/statamic/cms/issues/8253) by @ryanmitchell
+- Fix Antlers Profiler memory issue. [#8384](https://github.com/statamic/cms/issues/8384) by @JohnathonKoster
+- Fix `search:results` duplicated code, and pagination parameter types. [#8314](https://github.com/statamic/cms/issues/8314) by @ryanmitchell
+- Fix missing `lowercase` validation message. [#8383](https://github.com/statamic/cms/issues/8383) by @marcorieser
+- Fix `user:profile_form` not catching certain validation rules. [#8264](https://github.com/statamic/cms/issues/8264) by @ryanmitchell
+- Fix Antlers Profilder depth and disabled layout logic. [#8368](https://github.com/statamic/cms/issues/8368) by @JohnathonKoster
+- Fix bottom margin on a section fieldtype when no instructions are present. [#8371](https://github.com/statamic/cms/issues/8371) by @martyf
+- Fix `toggle` fields collapsing too far and not wrapping instructions in sidebars. [#8366](https://github.com/statamic/cms/issues/8366) by @jackmcdade
+- Fix Grid field instructions tooltip not rendering as HTML properly. [#8367](https://github.com/statamic/cms/issues/8367) by @jackmcdade
+- Switch StyleCI with Pint. Apply Pint code style fixes. [#8310](https://github.com/statamic/cms/issues/8310) by @jasonvarga
+- Remove some Laravel 8 specific code. [#8385](https://github.com/statamic/cms/issues/8385) by @jesseleite
+
+
+
 ## 4.9.1.1 (2023-06-28)
 
 ### What's new
