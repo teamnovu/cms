@@ -45,6 +45,7 @@ class ExtensionServiceProvider extends ServiceProvider
         Actions\ReuploadAsset::class,
         Actions\MoveAssetFolder::class,
         Actions\RenameAssetFolder::class,
+        Actions\Impersonate::class,
     ];
 
     protected $fieldtypes = [
@@ -76,6 +77,7 @@ class ExtensionServiceProvider extends ServiceProvider
         Fieldtypes\Lists::class,
         Fieldtypes\Markdown::class,
         Fieldtypes\Markdown\Buttons::class,
+        Fieldtypes\Navs::class,
         Fieldtypes\NestedFields::class,
         Fieldtypes\Radio::class,
         Fieldtypes\Range::class,
@@ -225,6 +227,7 @@ class ExtensionServiceProvider extends ServiceProvider
         Updates\AddAssignRolesAndGroupsPermissions::class,
         Updates\AddDefaultPreferencesToGitConfig::class,
         Updates\DisableRefreshOnPreviewTargetsIfPostMessageLivePreviewWasUsed::class,
+        Updates\AddConfigureFormFieldsPermission::class,
     ];
 
     public function register()
