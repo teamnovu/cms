@@ -774,7 +774,7 @@ class Entry implements Arrayable, ArrayAccess, Augmentable, ContainsQueryableVal
             'slug' => $this->slug(),
             'published' => $this->published(),
             'mount' => $this->collection()->uri($this->locale()),
-            'mount_abs' => $this->collection()->absoluteUrl($this->locale()),
+            'site'=>$this->site()->absoluteUrl($this->locale())
         ]);
 
         if ($this->hasDate()) {
