@@ -228,6 +228,7 @@ class ExtensionServiceProvider extends ServiceProvider
         Updates\AddDefaultPreferencesToGitConfig::class,
         Updates\DisableRefreshOnPreviewTargetsIfPostMessageLivePreviewWasUsed::class,
         Updates\AddConfigureFormFieldsPermission::class,
+        Updates\AddSitePermissions::class,
     ];
 
     public function register()
