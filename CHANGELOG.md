@@ -1,5 +1,61 @@
 # Release Notes
 
+## 3.3.68 (2023-02-02)
+
+### What's fixed
+- Fix create entry form not redirecting on save. [#7443](https://github.com/statamic/cms/issues/7443) by @jasonvarga
+
+
+
+## 3.3.67 (2023-01-30)
+
+### What's fixed
+- Reverted "Dynamic Antlers Tags and Variables" [#7420](https://github.com/statamic/cms/issues/7420) by @edalzell
+
+
+
+## 3.3.66 (2023-01-26)
+
+### What's new
+- Support Vite assets in the Control Panel. [#6869](https://github.com/statamic/cms/issues/6869) by @jacksleight
+- ~~Dynamic Antlers Tags and Variables.~~ Reverted in 3.3.67 [#7164](https://github.com/statamic/cms/issues/7164) by @JohnathonKoster
+- SVG tag allows adding `title` and `desc` elements. [#7348](https://github.com/statamic/cms/issues/7348) by @jackmcdade
+
+### What's improved
+- Custom rules are displayed in the validation builder dropdown. [#7363](https://github.com/statamic/cms/issues/7363) by @jacksleight
+- Dutch translations. [#7404](https://github.com/statamic/cms/issues/7404) by @oakeddev
+
+### What's fixed
+- Fix issue where some asset directories wouldn't appear. [#7205](https://github.com/statamic/cms/issues/7205) by @jasonvarga
+- Fix error when using taxonomy terms in navs. [#7407](https://github.com/statamic/cms/issues/7407) by @FrittenKeeZ
+- Fix modifier exceptions losing their stack trace. [#7409](https://github.com/statamic/cms/issues/7409) by @jasonvarga
+- Fix missing form values in submission emails. [#7369](https://github.com/statamic/cms/issues/7369) by @jacksleight
+- Fix Eloquent user login timestamps not being set. [#7402](https://github.com/statamic/cms/issues/7402) by @ryanmitchell
+- Fix Antlers issuess where variables could leak into other places. [#7353](https://github.com/statamic/cms/issues/7353) [#7392](https://github.com/statamic/cms/issues/7392) by @JohnathonKoster
+- Fix Antlers issue where variables were being overzealously cached. [#7390](https://github.com/statamic/cms/issues/7390) by @JohnathonKoster
+- Fix revealer fields disappearing on save. [#7388](https://github.com/statamic/cms/issues/7388) by @jesseleite
+
+
+
+## 3.3.65 (2023-01-18)
+
+### What's new
+- PHP 8.2 support. [#7299](https://github.com/statamic/cms/issues/7299) by @jasonvarga
+- Ability to pass an array of roles into the `user_roles` tag. [#7328](https://github.com/statamic/cms/issues/7328) by @edalzell
+
+### What's improved
+- When using revisions, the publish action button takes into consideration whether you can manage publish state. [#7168](https://github.com/statamic/cms/issues/7168) by @arthurperton
+- Pasting multiple lines into the `list` fieldtype will create multiple list items. [#7340](https://github.com/statamic/cms/issues/7340) by @jacksleight
+
+### What's fixed
+- Fix how user blueprint fields are handled in a few cases. [#7368](https://github.com/statamic/cms/issues/7368) by @jesseleite
+- Fix misspelling [#7354](https://github.com/statamic/cms/issues/7354) by @stefanbauer
+- Improve memory leak and garbage collection in Antlers. [#7361](https://github.com/statamic/cms/issues/7361) [#7367](https://github.com/statamic/cms/issues/7367) by @JohnathonKoster
+- Fix `revealer` fields disappearing on save. [#7329](https://github.com/statamic/cms/issues/7329) by @jacksleight
+- Use customizable create label on the empty collection listing view. [#7323](https://github.com/statamic/cms/issues/7323) by @arthurperton
+
+
+
 ## 3.3.64 (2023-01-06)
 
 ### What's new

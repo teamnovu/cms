@@ -248,6 +248,7 @@
             :collection="collectionHandle"
             :reference="initialReference"
             :publish-container="publishContainer"
+            :can-manage-publish-state="canManagePublishState"
             @closed="confirmingPublish = false"
             @saving="saving = true"
             @saved="publishActionCompleted"
@@ -283,7 +284,7 @@ import PublishActions from './PublishActions';
 import SaveButtonOptions from '../publish/SaveButtonOptions';
 import RevisionHistory from '../revision-history/History';
 import HasPreferences from '../data-list/HasPreferences';
-import HasHiddenFields from '../data-list/HasHiddenFields';
+import HasHiddenFields from '../publish/HasHiddenFields';
 
 export default {
 
@@ -557,7 +558,7 @@ export default {
                     // the hooks are resolved because if this form is being shown in a stack, we only
                     // want to close it once everything's done.
                     else {
-                        this.values = { ...this.values, ...response.data.data.values };
+                        this.values = this.resetValuesFromResponse(response.data.data.values);
                         this.initialPublished = response.data.data.published;
                         this.activeLocalization.published = response.data.data.published;
                         this.activeLocalization.status = response.data.data.status;
@@ -565,7 +566,7 @@ export default {
                     }
 
                     this.quickSave = false;
-                }).catch(e => {});
+                }).catch(e => console.error(e));
         },
 
         confirmPublish() {
