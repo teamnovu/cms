@@ -92,9 +92,18 @@ abstract class Index
 
     public function filter($searchable)
     {
-        if (isset($this->config()['filter'])
-            && $this->config()['filter'] instanceof Closure) {
-            return $this->config()['filter']($searchable);
+        if (!isset($this->config()['filter'])) {
+            return true;
+        }
+
+        $filter = $this->config()['filter'];
+
+        if ($filter instanceof Closure) {
+            return $filter($searchable);
+        }
+
+        if (is_string($filter)) {
+            return resolve($filter)->handle($searchable);
         }
 
         return true;
