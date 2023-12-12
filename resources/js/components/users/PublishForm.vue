@@ -111,22 +111,24 @@ export default {
       this.errors = {};
     },
 
-    save() {
-      this.clearErrors();
-
-      this.$axios[this.method](this.actions.save, this.visibleValues).then(response => {
-        this.title = response.data.title;
-        if (!this.isCreating) this.$toast.success(__('Saved'));
-        this.$refs.container.saved();
-        this.$nextTick(() => this.$emit('saved', response));
-      }).catch(e => {
-        if (e.response && e.response.status === 422) {
-          const { message, errors } = e.response.data;
-          this.error = message;
-          this.errors = errors;
-          this.$toast.error(message);
-        } else {
-          this.$toast.error(__('Something went wrong'));
+            this.$axios[this.method](this.actions.save, this.visibleValues).then(response => {
+                this.title = response.data.title;
+                if (!response.data.saved) {
+                    return this.$toast.error(`Couldn't save user`)
+                }
+                if (!this.isCreating) this.$toast.success(__('Saved'));
+                this.$refs.container.saved();
+                this.$nextTick(() => this.$emit('saved', response));
+            }).catch(e => {
+                if (e.response && e.response.status === 422) {
+                    const { message, errors } = e.response.data;
+                    this.error = message;
+                    this.errors = errors;
+                    this.$toast.error(message);
+                } else {
+                    this.$toast.error(__('Something went wrong'));
+                }
+            });
         }
       });
     }
