@@ -79,9 +79,63 @@ export default {
     canEditBlueprint: Boolean,
     requiresCurrentPassword: Boolean,
 
-    breadcrumbUrl: {
-      type: String,
-      default: () => cp_url('users')
+    data() {
+        return {
+            fieldset: _.clone(this.initialFieldset),
+            values: _.clone(this.initialValues),
+            meta: _.clone(this.initialMeta),
+            error: null,
+            errors: {},
+            title: this.initialTitle,
+        }
+    },
+
+    computed: {
+
+        hasErrors() {
+            return this.error || Object.keys(this.errors).length;
+        }
+
+    },
+
+    methods: {
+
+        clearErrors() {
+            this.error = null;
+            this.errors = {};
+        },
+
+        save() {
+            this.clearErrors();
+
+            this.$axios[this.method](this.actions.save, this.visibleValues).then(response => {
+                this.title = response.data.title;
+                if (!response.data.saved) {
+                    return this.$toast.error(`Couldn't save user`)
+                }
+                if (!this.isCreating) this.$toast.success(__('Saved'));
+                this.$refs.container.saved();
+                this.$nextTick(() => this.$emit('saved', response));
+            }).catch(e => {
+                if (e.response && e.response.status === 422) {
+                    const { message, errors } = e.response.data;
+                    this.error = message;
+                    this.errors = errors;
+                    this.$toast.error(message);
+                    this.$reveal.invalid();
+                } else {
+                    this.$toast.error(__('Something went wrong'));
+                }
+            });
+        }
+
+    },
+
+    mounted() {
+        this.$keys.bindGlobal(['mod+s'], e => {
+            e.preventDefault();
+            this.save();
+        });
     }
   },
 
