@@ -44,11 +44,17 @@ class DefaultSchema implements ConfigConvertible
     public function getConfig()
     {
         return [
+            'types' => $this->getTypes(),
             'query' => $this->getQueries(),
-            'mutation' => [],
+            'mutation' => $this->getMutations(),
             'middleware' => $this->getMiddleware(),
             'method' => ['GET', 'POST'],
         ];
+    }
+
+    private function getTypes()
+    {
+        return config('statamic.graphql.types', []);
     }
 
     private function getQueries()
@@ -72,6 +78,11 @@ class DefaultSchema implements ConfigConvertible
             ->merge(config('statamic.graphql.queries', []))
             ->merge(GraphQL::getExtraQueries())
             ->all();
+    }
+
+    private function getMutations()
+    {
+        return config('statamic.graphql.mutations', []);
     }
 
     private function getMiddleware()
