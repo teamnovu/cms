@@ -1,5 +1,10 @@
 # Release Notes
 
+## 4.51.0.2 (2024-03-12)
+
+### What's new
+- Add advanced GraphQL config
+
 ## 4.51.0.1 (2024-02-21)
 
 ### What's new
