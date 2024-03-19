@@ -1,5 +1,12 @@
 # Release Notes
 
+## 4.53.2.1 (2024-03-19)
+
+### What's new
+- The fork has been updated to [v4.51.0](https://github.com/statamic/cms/releases/tag/v4.53.2).
+
+
+
 ## 4.53.2 (2024-03-13)
 
 ### What's improved
@@ -61,16 +68,35 @@
 
 
 
-## 4.51.0 (2024-02-28)
 ## 4.51.0.2 (2024-03-12)
 
 ### What's new
 - Add advanced GraphQL config
 
+
+
 ## 4.51.0.1 (2024-02-21)
 
 ### What's new
 - The fork has been updated to [v4.51.0](https://github.com/statamic/cms/releases/tag/v4.51.0).
+
+
+
+## 4.51.0 (2024-02-28)
+
+### What's new
+- Add `isDirty` / `isClean`. [#5502](https://github.com/statamic/cms/issues/5502) by @ryanmitchell
+- Support for validation Rule objects. [#9332](https://github.com/statamic/cms/issues/9332) by @martyf
+
+### What's fixed
+- Use protection scheme from data before using site-wide protection scheme. [#9607](https://github.com/statamic/cms/issues/9607) by @duncanmcclean
+- Fix search dropdown being hidden on Taggable Fieldtype. [#9606](https://github.com/statamic/cms/issues/9606) by @duncanmcclean
+- Tweak SuggestsConditionalFields behaviour when dealing with a fields prefix. [#9592](https://github.com/statamic/cms/issues/9592) by @martyf
+- Only run custom validation errors when not precognitive. [#9599](https://github.com/statamic/cms/issues/9599) by @ryanmitchell
+- Fix docblock of FluentTag param method. [#9601](https://github.com/statamic/cms/issues/9601) by @ajnsn
+- Fix pixel gap on relationship fieldtype items and prevent padding issue. [#9597](https://github.com/statamic/cms/issues/9597) by @robdekort
+
+
 
 ## 4.49.0.1 (2024-02-21)
 
@@ -78,6 +104,8 @@
 - The fork has been updated to [v4.49.0](https://github.com/statamic/cms/releases/tag/v4.49.0).
 
 ## 4.49.0 (2024-02-16)
+
+
 
 ### What's new
 - Support YouTube Shorts in `embed_code` modifier. [#9521](https://github.com/statamic/cms/issues/9521) by @mnlmaier
