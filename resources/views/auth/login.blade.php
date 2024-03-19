@@ -58,7 +58,14 @@
                     </div>
                 </form>
             </div>
-        </login>
+            <div class="flex justify-between items-center">
+                <label for="remember-me" class="flex items-center cursor-pointer">
+                    <input type="checkbox" name="remember" id="remember-me">
+                    <span class="rtl:mr-2 ltr:ml-2">{{ __('Remember me') }}</span>
+                </label>
+                <button type="submit" class="btn-primary">{{ __('Log in') }}</button>
+            </div>
+        </form>
     </div>
     @if ($emailLoginEnabled)
         <div class="w-full text-center mt-4">
