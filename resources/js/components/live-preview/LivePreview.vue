@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <v-portal :to="livePreviewFieldsPortal" :disabled="!previewing">
+        <v-portal :to="livePreviewFieldsPortal" :disabled="!portalEnabled">
             <provider :variables="provides">
                 <slot name="default" />
             </provider>
@@ -12,29 +12,24 @@
 
                 <transition name="live-preview-header-slide">
                     <div v-show="headerVisible" class="live-preview-header">
-                        <div class="text-base text-gray-700 font-medium rtl:ml-4 ltr:mr-4">{{ __('Live Preview') }}</div>
+                        <div class="text-base text-gray-700 dark:text-dark-150 font-medium rtl:ml-4 ltr:mr-4">{{
+            __('Live Preview') }}</div>
                         <div class="flex items-center">
-                            <button v-if="canPopOut && !poppedOut" class="btn" @click="popout">{{ __('Pop out') }}</button>
+                            <button v-if="canPopOut && !poppedOut" class="btn" @click="popout">{{ __('Pop out')
+                                }}</button>
                             <button v-if="poppedOut" class="btn" @click="closePopout">{{ __('Pop in') }}</button>
-                            <select-input :options="deviceSelectOptions" v-model="previewDevice" v-show="!poppedOut" class="rtl:mr-4 ltr:ml-4" />
-                            <select-input :options="targetSelectOptions" v-model="target" class="rtl:mr-4 ltr:ml-4" v-if="targets.length > 1" />
+                            <select-input :options="deviceSelectOptions" v-model="previewDevice" v-show="!poppedOut"
+                                class="rtl:mr-4 ltr:ml-4" />
+                            <select-input :options="targetSelectOptions" v-model="target" class="rtl:mr-4 ltr:ml-4"
+                                v-if="targets.length > 1" />
 
-                            <component
-                                v-for="(component, handle) in inputs"
-                                :key="handle"
-                                :is="component"
-                                :value="extras[handle]"
-                                :loading="loading"
-                                @input="componentUpdated(handle, $event)"
+                            <component v-for="(component, handle) in inputs" :key="handle" :is="component"
+                                :value="extras[handle]" :loading="loading" @input="componentUpdated(handle, $event)"
                                 class="rtl:mr-4 ltr:ml-4" />
 
                             <slot name="buttons" />
 
-                            <button
-                                type="button"
-                                class="btn-close"
-                                @click="close"
-                                v-html="'&times'" />
+                            <button type="button" class="btn-close" @click="close" v-html="'&times'" />
                         </div>
                     </div>
                 </transition>
@@ -42,23 +37,21 @@
                 <div class="live-preview-main">
 
                     <transition name="live-preview-editor-slide">
-                        <div v-show="panesVisible" class="live-preview-editor @container/live-preview" :style="{ width: poppedOut ? '100%' : `${editorWidth}px` }">
+                        <div v-show="panesVisible" class="live-preview-editor @container/live-preview"
+                            :style="{ width: poppedOut ? '100%' : `${editorWidth}px` }">
                             <div class="live-preview-fields flex-1 h-full overflow-scroll">
                                 <portal-target :name="livePreviewFieldsPortal" />
                             </div>
 
-                            <resizer
-                                v-show="!poppedOut"
-                                @resized="setEditorWidth"
-                                @resize-start="editorResizing = true"
-                                @resize-end="editorResizing = false"
-                                @collapsed="collapseEditor"
-                            />
+                            <resizer v-show="!poppedOut" @resized="setEditorWidth" @resize-start="editorResizing = true"
+                                @resize-end="editorResizing = false" @collapsed="collapseEditor" />
                         </div>
                     </transition>
 
                     <transition name="live-preview-contents-slide">
-                        <div v-show="panesVisible" ref="contents" class="live-preview-contents items-center justify-center overflow-auto" :class="{ 'pointer-events-none': editorResizing }" />
+                        <div v-show="panesVisible" ref="contents"
+                            class="live-preview-contents items-center justify-center overflow-auto"
+                            :class="{ 'pointer-events-none': editorResizing }" />
                     </transition>
 
                 </div>
@@ -101,6 +94,7 @@ export default {
 
     data() {
         return {
+            portalEnabled: false,
             panesVisible: false,
             headerVisible: false,
             editorWidth: null,
@@ -185,14 +179,14 @@ export default {
 
     watch: {
 
-        previewing(enabled) {
-            // TODO: destroy focus events
-
-            if (!enabled) {
-                this.unregisterFocusEvent();
-
-                return;
+        previewing(enabled, wasEnabled) {
+            if (wasEnabled && !enabled) {
+                this.$nextTick(() => this.portalEnabled = false);
+            } else {
+                this.portalEnabled = enabled;
             }
+
+            if (!enabled) return;
 
             this.update();
             this.animateIn();
@@ -362,7 +356,7 @@ export default {
         },
 
         focusUpdated(event) {
-            const container =  this.$refs.contents;
+            const container = this.$refs.contents;
 
             if (!container.firstChild) return;
 
@@ -427,7 +421,7 @@ export default {
                 return null;
             }
 
-            if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier))  {
+            if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier)) {
                 return fieldIdentifier
                     .replaceAll('[', '.')
                     .replaceAll(']', '');

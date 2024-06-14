@@ -37,6 +37,10 @@
             @confirm="savePreset(savingPresetSlug)"
         >
             <text-input :focus="true" v-model="savingPresetName" @keydown.enter="savePreset(savingPresetSlug)" />
+
+            <div v-if="presets && Object.keys(presets).includes(savingPresetSlug)">
+                <small class="help-block text-red-500 mt-2 mb-0" v-text="__('messages.filters_view_already_exists')"></small>
+            </div>
         </confirmation-modal>
 
         <confirmation-modal
@@ -44,9 +48,13 @@
             :title="__('Rename View')"
             :buttonText="__('Rename')"
             @cancel="showRenameModal = false"
-            @confirm="savePreset()"
+            @confirm="savePreset(savingPresetSlug)"
         >
-            <text-input :focus="true" v-model="savingPresetName" @keydown.enter="savePreset()" />
+            <text-input :focus="true" v-model="savingPresetName" @keydown.enter="savePreset(savingPresetSlug)" />
+
+            <div v-if="Object.keys(presets).filter(preset => preset !== activePreset).includes(savingPresetSlug)">
+                <small class="help-block text-red-500 mt-2 mb-0" v-text="__('messages.filters_view_already_exists')"></small>
+            </div>
         </confirmation-modal>
 
         <confirmation-modal
@@ -101,7 +109,7 @@ export default {
         },
 
         savingPresetSlug() {
-            return this.$slugify(this.savingPresetName, '_');
+            return snake_case(this.savingPresetName);
         },
     },
 
@@ -160,17 +168,44 @@ export default {
                 return;
             }
 
+            if (this.showRenameModal) {
+                let preference = this.$preferences.get(`${this.preferencesKey}`);
+
+                preference = Object.fromEntries(Object.entries(preference).map(([key, value]) => {
+                    if (key === this.activePreset) {
+                        return [this.savingPresetSlug, this.presetPreferencesPayload];
+                    }
+
+                    return [key, value];
+                }));
+
+                this.$preferences.set(`${this.preferencesKey}`, preference)
+                    .then(response => {
+                        this.$toast.success(__('View renamed'));
+                        this.$emit('deleted', this.activePreset);
+                        this.showRenameModal = false;
+                        this.refreshPresets();
+                    })
+                    .catch(error => {
+                        this.$toast.error(__('Unable to rename view'));
+                        this.showRenameModal = false;
+                    });
+
+                return;
+            }
+
             this.$preferences.set(`${this.preferencesKey}.${presetHandle}`, this.presetPreferencesPayload)
                 .then(response => {
                     this.$toast.success(__('View saved'));
                     this.showCreateModal = false;
-                    this.showRenameModal = false;
+                    this.savingPresetName = null;
                     this.setPreset(presetHandle);
                 })
                 .catch(error => {
                     this.$toast.error(__('Unable to save view'));
                     this.showCreateModal = false;
                     this.showRenameModal = false;
+                    this.savingPresetName = null;
                 });
         },
 

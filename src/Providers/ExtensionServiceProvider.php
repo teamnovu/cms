@@ -160,6 +160,7 @@ class ExtensionServiceProvider extends ServiceProvider
         Tags\GetError::class,
         Tags\GetErrors::class,
         Tags\GetFiles::class,
+        Tags\GetSite::class,
         Tags\Glide::class,
         Tags\In::class,
         Tags\Increment::class,
@@ -231,6 +232,8 @@ class ExtensionServiceProvider extends ServiceProvider
         Updates\DisableRefreshOnPreviewTargetsIfPostMessageLivePreviewWasUsed::class,
         Updates\AddConfigureFormFieldsPermission::class,
         Updates\AddSitePermissions::class,
+        Updates\UseClassBasedStatamicUniqueRules::class,
+        Updates\MigrateSitesConfigToYaml::class,
     ];
 
     public function register()
@@ -239,6 +242,7 @@ class ExtensionServiceProvider extends ServiceProvider
         $this->registerAddonManifest();
         $this->registerFormJsDrivers();
         $this->registerUpdateScripts();
+        $this->app->instance('statamic.hooks', collect());
     }
 
     protected function registerAddonManifest()

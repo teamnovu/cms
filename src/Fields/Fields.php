@@ -149,7 +149,11 @@ class Fields
 
     public function toPublishArray()
     {
-        return $this->fields->values()->map->toPublishArray()->all();
+        $blink = md5(json_encode($this->fields));
+
+        return Blink::once($blink, function () {
+            return $this->fields->values()->map->toPublishArray()->all();
+        });
     }
 
     public function addValues(array $values)
@@ -256,7 +260,7 @@ class Fields
             throw new \Exception("Field {$config['field']} not found.");
         }
 
-        if ($overrides = array_get($config, 'config')) {
+        if ($overrides = Arr::get($config, 'config')) {
             $field->setConfig(array_merge($field->config(), $overrides));
         }
 
@@ -268,9 +272,11 @@ class Fields
 
     private function getImportedFields(array $config): array
     {
+        $recursion = tap(app(FieldsetRecursionStack::class))->push($config['import']);
+
         $blink = 'blueprint-imported-fields-'.md5(json_encode($config));
 
-        return Blink::once($blink, function () use ($config) {
+        $imported = Blink::once($blink, function () use ($config) {
             if (! $fieldset = FieldsetRepository::find($config['import'])) {
                 throw new FieldsetNotFoundException($config['import']);
             }
@@ -283,7 +289,7 @@ class Fields
                 });
             }
 
-            if ($prefix = array_get($config, 'prefix')) {
+            if ($prefix = Arr::get($config, 'prefix')) {
                 $fields = $fields->mapWithKeys(function ($field) use ($prefix) {
                     $field = clone $field;
                     $handle = $prefix.$field->handle();
@@ -299,6 +305,10 @@ class Fields
                 ->setParent($this->parent)
                 ->setParentField($this->parentField, $this->parentIndex);
         })->all();
+
+        $recursion->pop();
+
+        return $imported;
     }
 
     public function meta()
