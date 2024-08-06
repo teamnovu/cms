@@ -12,24 +12,29 @@
 
                 <transition name="live-preview-header-slide">
                     <div v-show="headerVisible" class="live-preview-header">
-                        <div class="text-base text-gray-700 dark:text-dark-150 font-medium rtl:ml-4 ltr:mr-4">{{
-            __('Live Preview') }}</div>
+                        <div class="text-base text-gray-700 dark:text-dark-150 font-medium rtl:ml-4 ltr:mr-4">{{ __('Live Preview') }}</div>
                         <div class="flex items-center">
-                            <button v-if="canPopOut && !poppedOut" class="btn" @click="popout">{{ __('Pop out')
-                                }}</button>
+                            <button v-if="canPopOut && !poppedOut" class="btn" @click="popout">{{ __('Pop out') }}</button>
                             <button v-if="poppedOut" class="btn" @click="closePopout">{{ __('Pop in') }}</button>
-                            <select-input :options="deviceSelectOptions" v-model="previewDevice" v-show="!poppedOut"
-                                class="rtl:mr-4 ltr:ml-4" />
-                            <select-input :options="targetSelectOptions" v-model="target" class="rtl:mr-4 ltr:ml-4"
-                                v-if="targets.length > 1" />
+                            <select-input :options="deviceSelectOptions" v-model="previewDevice" v-show="!poppedOut" class="rtl:mr-4 ltr:ml-4" />
+                            <select-input :options="targetSelectOptions" v-model="target" class="rtl:mr-4 ltr:ml-4" v-if="targets.length > 1" />
 
-                            <component v-for="(component, handle) in inputs" :key="handle" :is="component"
-                                :value="extras[handle]" :loading="loading" @input="componentUpdated(handle, $event)"
+                            <component
+                                v-for="(component, handle) in inputs"
+                                :key="handle"
+                                :is="component"
+                                :value="extras[handle]"
+                                :loading="loading"
+                                @input="componentUpdated(handle, $event)"
                                 class="rtl:mr-4 ltr:ml-4" />
 
                             <slot name="buttons" />
 
-                            <button type="button" class="btn-close" @click="close" v-html="'&times'" />
+                            <button
+                                type="button"
+                                class="btn-close"
+                                @click="close"
+                                v-html="'&times'" />
                         </div>
                     </div>
                 </transition>
@@ -37,21 +42,23 @@
                 <div class="live-preview-main">
 
                     <transition name="live-preview-editor-slide">
-                        <div v-show="panesVisible" class="live-preview-editor @container/live-preview"
-                            :style="{ width: poppedOut ? '100%' : `${editorWidth}px` }">
+                        <div v-show="panesVisible" class="live-preview-editor @container/live-preview" :style="{ width: poppedOut ? '100%' : `${editorWidth}px` }">
                             <div class="live-preview-fields flex-1 h-full overflow-scroll">
                                 <portal-target :name="livePreviewFieldsPortal" />
                             </div>
 
-                            <resizer v-show="!poppedOut" @resized="setEditorWidth" @resize-start="editorResizing = true"
-                                @resize-end="editorResizing = false" @collapsed="collapseEditor" />
+                            <resizer
+                                v-show="!poppedOut"
+                                @resized="setEditorWidth"
+                                @resize-start="editorResizing = true"
+                                @resize-end="editorResizing = false"
+                                @collapsed="collapseEditor"
+                            />
                         </div>
                     </transition>
 
                     <transition name="live-preview-contents-slide">
-                        <div v-show="panesVisible" ref="contents"
-                            class="live-preview-contents items-center justify-center overflow-auto"
-                            :class="{ 'pointer-events-none': editorResizing }" />
+                        <div v-show="panesVisible" ref="contents" class="live-preview-contents items-center justify-center overflow-auto" :class="{ 'pointer-events-none': editorResizing }" />
                     </transition>
 
                 </div>
@@ -190,10 +197,6 @@ export default {
 
             this.update();
             this.animateIn();
-
-            this.$nextTick(() => {
-                this.registerFocusEvent();
-            });
         },
 
         payload: {
@@ -353,81 +356,6 @@ export default {
 
         componentUpdated(handle, value) {
             Vue.set(this.extras, handle, value);
-        },
-
-        focusUpdated(event) {
-            const container = this.$refs.contents;
-
-            if (!container.firstChild) return;
-
-            const element = event.target;
-            const fieldIdentifier = this.getFirstFieldIdentifierRecursively(element);
-            const normalizedIdentifier = this.normalizeFieldIdentifier(fieldIdentifier);
-            const iframeUrl = container.firstChild.src;
-            const targetOrigin = /^https?:\/\//.test(iframeUrl) ? (new URL(iframeUrl))?.origin : window.origin;
-
-            container.firstChild.contentWindow.postMessage(
-                {
-                    focusedElement: normalizedIdentifier,
-                },
-                targetOrigin
-            );
-        },
-
-        registerFocusEvent() {
-            const lpEditorSidebar = document.querySelector('.live-preview-editor');
-
-            if (!lpEditorSidebar) return;
-
-            lpEditorSidebar.addEventListener(
-                'focus',
-                this.focusUpdated,
-                true
-            );
-        },
-
-        unregisterFocusEvent() {
-            const lpEditorSidebar = document.querySelector('.live-preview-editor');
-
-            if (!lpEditorSidebar) return;
-
-            lpEditorSidebar.removeEventListener(
-                'focus',
-                this.focusUpdated,
-                true
-            );
-        },
-
-        getFirstFieldIdentifierRecursively(element) {
-            if (!(element instanceof Element)) {
-                return null;
-            }
-
-            const name = element.getAttribute('name');
-            if (name) {
-                return name;
-            }
-
-            const fieldPathPrefix = element.getAttribute('field-path-prefix');
-            if (fieldPathPrefix) {
-                return fieldPathPrefix;
-            }
-
-            return this.getFirstFieldIdentifierRecursively(element.parentElement);
-        },
-
-        normalizeFieldIdentifier(fieldIdentifier) {
-            if (!fieldIdentifier) {
-                return null;
-            }
-
-            if (/^\w+(?:\[\w+\])*$/.test(fieldIdentifier)) {
-                return fieldIdentifier
-                    .replaceAll('[', '.')
-                    .replaceAll(']', '');
-            }
-
-            return fieldIdentifier;
         }
     }
 
