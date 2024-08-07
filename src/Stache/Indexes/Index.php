@@ -159,9 +159,4 @@ abstract class Index
     {
         return static::$currentlyLoading;
     }
-
-    public static function currentlyLoading()
-    {
-        return static::$currentlyLoading;
-    }
 }

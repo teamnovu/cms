@@ -125,9 +125,4 @@ class LicenseManager
     {
         return $this->outpost->usingLicenseKeyFile();
     }
-
-    public function usingLicenseKeyFile()
-    {
-        return $this->outpost->usingLicenseKeyFile();
-    }
 }
