@@ -88,6 +88,10 @@ export default {
             this.$nextTick(() => this.updateInputValue());
         },
 
+        'bindings': function () {
+            this.$nextTick(() => this.updateInputValue());
+        },
+
     },
 
     methods: {
