@@ -17,7 +17,6 @@ use Statamic\Events\ResponseCreated;
 use Statamic\Facades\Blueprint;
 use Statamic\Facades\Cascade;
 use Statamic\Facades\Collection;
-use Statamic\Facades\Entry;
 use Statamic\Facades\User;
 use Statamic\Tags\Tags;
 use Statamic\View\Antlers\Language\Utilities\StringUtilities;
@@ -38,8 +37,7 @@ class FrontendTest extends TestCase
 
     private function withStandardBlueprints()
     {
-        $this->addToAssertionCount(-1);
-        Blueprint::shouldReceive('in')->withAnyArgs()->zeroOrMoreTimes()->andReturn(collect([new \Statamic\Fields\Blueprint]));
+        Blueprint::shouldReceive('in')->withAnyArgs()->andReturn(collect([new \Statamic\Fields\Blueprint]));
     }
 
     #[Test]
@@ -252,6 +250,21 @@ class FrontendTest extends TestCase
             ->assertHeader('X-Statamic-Draft', true);
 
         $this->assertEquals('Testing 123', $response->content());
+    }
+
+    #[Test]
+    public function drafts_are_not_visible_if_using_live_preview_token_for_different_entry()
+    {
+        $this->withStandardFakeErrorViews();
+
+        $page = tap($this->createPage('about')->published(false)->set('content', 'Testing 123'))->save();
+        $other = $this->createPage('other');
+
+        LivePreview::tokenize('test-token', $other);
+
+        $this
+            ->get('/about?token=test-token')
+            ->assertStatus(404);
     }
 
     #[Test]

@@ -1,5 +1,88 @@
 # Release Notes
 
+## 5.73.21 (2026-04-27)
+
+### What's fixed
+- Always show success when using forgot password form [#14539](https://github.com/statamic/cms/issues/14539) by @jasonvarga
+
+
+
+## 5.73.20 (2026-04-13)
+
+### What's fixed
+- Harden query value resolution [#14476](https://github.com/statamic/cms/issues/14476) by @duncanmcclean
+- Harden OrderBys [#14474](https://github.com/statamic/cms/issues/14474) by @duncanmcclean
+- Remove negative assertions from `TestCase` [#14458](https://github.com/statamic/cms/issues/14458) by @duncanmcclean
+
+
+
+## 5.73.19 (2026-04-07)
+
+### What's fixed
+- Add `link` tag to allowed Antlers tags [#14438](https://github.com/statamic/cms/issues/14438) by @edalzell
+- Add `@default` support to Antlers content allowlists [#14440](https://github.com/statamic/cms/issues/14440) by @jasonvarga
+- Fix Stache index re-entrancy causing null URIs on cold stache [#14181](https://github.com/statamic/cms/issues/14181) by @o1y
+- Fix form submission types [#14430](https://github.com/statamic/cms/issues/14430) by @daun
+
+
+
+## 5.73.18 (2026-04-02)
+
+### What's fixed
+- Harden OrderBys [#14421](https://github.com/statamic/cms/issues/14421) by @jasonvarga
+
+
+
+## 5.73.17 (2026-03-25)
+
+### What's fixed
+- Fix term revisions error [#14347](https://github.com/statamic/cms/issues/14347) by @duncanmcclean
+
+
+
+## 5.73.16 (2026-03-24)
+
+### What's fixed
+- Fix config through Antlers views [#14328](https://github.com/statamic/cms/issues/14328) by @jasonvarga
+- Sanitize password reset form redirect value [#14327](https://github.com/statamic/cms/issues/14327) by @jasonvarga
+- Restrict markdown preview endpoint [#14326](https://github.com/statamic/cms/issues/14326) by @jasonvarga
+- Add authorization to revision routes [#14301](https://github.com/statamic/cms/issues/14301) by @duncanmcclean
+- Add CSP header to svg route [#14325](https://github.com/statamic/cms/issues/14325) by @jasonvarga
+- Relationship fieldtype authorization tweaks [#14307](https://github.com/statamic/cms/issues/14307) by @duncanmcclean
+- Allow external redirects from Form::getSubmissionRedirect [#14318](https://github.com/statamic/cms/issues/14318) by @jasonvarga
+- Handle more cases in external url detection [#14312](https://github.com/statamic/cms/issues/14312) by @jasonvarga
+- Fix live preview token scope [#14304](https://github.com/statamic/cms/issues/14304) by @jasonvarga
+- Fix PHP sanitization edge cases [#14300](https://github.com/statamic/cms/issues/14300) by @duncanmcclean
+
+
+
+## 5.73.15 (2026-03-18)
+
+### What's fixed
+- Harden password reset [#14296](https://github.com/statamic/cms/issues/14296) by @jasonvarga
+- Add additional `URL::isExternalToApplication()` tests [#14288](https://github.com/statamic/cms/issues/14288) by @duncanmcclean
+
+
+
+## 5.73.14 (2026-03-17)
+
+### What's fixed
+- Prevent term creation via fieldtype without permission [#14274](https://github.com/statamic/cms/issues/14274) by @duncanmcclean
+- Prevent path traversal in file dictionary [#14272](https://github.com/statamic/cms/issues/14272) by @duncanmcclean
+- Sanitize SVGs on asset reupload [#14270](https://github.com/statamic/cms/issues/14270) by @jasonvarga
+
+
+
+## 5.73.13 (2026-03-13)
+
+### What's fixed
+- Relationship endpoint authorization [#14254](https://github.com/statamic/cms/issues/14254) by @jasonvarga
+- Fix ensure field has config [#14195](https://github.com/statamic/cms/issues/14195) by @marcorieser
+- Removed a comment from the js code output of the StaticCacher [#14233](https://github.com/statamic/cms/issues/14233) by @micahhenshaw
+- Acquire stache-warming lock in Duplicates::find [#14176](https://github.com/statamic/cms/issues/14176) by @mmodler
+
+
+
 ## 5.73.12 (2026-03-04)
 
 ### What's fixed

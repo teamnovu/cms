@@ -8,6 +8,7 @@ use Facades\Statamic\Fields\FieldRepository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Statamic\Contracts\Data\Augmentable;
+use Statamic\Contracts\Query\ContainsQueryableValues;
 use Statamic\Contracts\Query\QueryableValue;
 use Statamic\CP\Column;
 use Statamic\CP\Columns;
@@ -30,7 +31,7 @@ use Statamic\Support\Str;
 
 use function Statamic\trans as __;
 
-class Blueprint implements Arrayable, ArrayAccess, Augmentable, QueryableValue
+class Blueprint implements Arrayable, ArrayAccess, Augmentable, ContainsQueryableValues, QueryableValue
 {
     use ExistsAsFile, HasAugmentedData;
 
@@ -645,6 +646,11 @@ class Blueprint implements Arrayable, ArrayAccess, Augmentable, QueryableValue
             return $this;
         }
 
+        // If field is deferred as an ensured field, we'll need to update it instead
+        if (! isset($fields[$handle]) && isset($this->ensuredFields[$handle])) {
+            return $this->ensureEnsuredFieldHasConfig($handle, $config);
+        }
+
         $fieldKey = $fields[$handle]['fieldIndex'];
         $sectionKey = $fields[$handle]['sectionIndex'];
 
@@ -660,6 +666,19 @@ class Blueprint implements Arrayable, ArrayAccess, Augmentable, QueryableValue
             $existingConfig = Arr::get($field, 'field', []);
             $this->contents['tabs'][$tab]['sections'][$sectionKey]['fields'][$fieldKey]['field'] = array_merge($existingConfig, $config);
         }
+
+        return $this->resetBlueprintCache()->resetFieldsCache();
+    }
+
+    private function ensureEnsuredFieldHasConfig($handle, $config)
+    {
+        if (! isset($this->ensuredFields[$handle])) {
+            return $this;
+        }
+
+        $existingConfig = Arr::get($this->ensuredFields[$handle], 'config', []);
+
+        $this->ensuredFields[$handle]['config'] = array_merge($existingConfig, $config);
 
         return $this->resetBlueprintCache()->resetFieldsCache();
     }
@@ -773,5 +792,22 @@ class Blueprint implements Arrayable, ArrayAccess, Augmentable, QueryableValue
     public function writeFile($path = null)
     {
         File::put($path ?? $this->buildPath(), $this->fileContents());
+    }
+
+    public function getQueryableValue(string $field)
+    {
+        if (in_array($method = Str::camel($field), $this->queryableMethods())) {
+            return $this->{$method}();
+        }
+
+        return null;
+    }
+
+    private function queryableMethods(): array
+    {
+        return [
+            'columns', 'fields', 'handle', 'hidden', 'isEmpty', 'isDeletable', 'isResettable',
+            'namespace', 'order', 'path', 'tabs', 'title',
+        ];
     }
 }

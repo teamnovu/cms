@@ -95,6 +95,18 @@ class UrlTest extends TestCase
     }
 
     #[Test]
+    public function it_does_not_trust_current_request_domain_when_no_sites_are_relative()
+    {
+        $this->setSites([
+            'a' => ['name' => 'A', 'locale' => 'en_US', 'url' => 'http://this-site.com/'],
+            'b' => ['name' => 'B', 'locale' => 'en_US', 'url' => 'http://subdomain.this-site.com/'],
+        ]);
+
+        $this->assertTrue(URL::isExternalToApplication('http://absolute-url-resolved-from-request.com/'));
+        $this->assertFalse(URL::isExternalToApplication('http://this-site.com/'));
+    }
+
+    #[Test]
     #[DataProvider('ancestorProvider')]
     public function it_checks_whether_a_url_is_an_ancestor_of_another($child, $parent, $isAncestor)
     {
